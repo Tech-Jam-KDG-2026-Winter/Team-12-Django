@@ -17,13 +17,13 @@ class User(AbstractUser):
 
 class ExerciseRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    sleep_time = models.DateTimeField()
-    wake_time = models.DateTimeField()
-    dream_diary = models.TextField(blank=True)
+    exercise_start_time = models.DateTimeField()
+    exercise_end_time = models.DateTimeField()
+    diary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def sleep_duration(self):
-        return self.wake_time - self.sleep_time
+        return self.exercise_end_time - self.exercise_start_time
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"
