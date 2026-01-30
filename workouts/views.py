@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from .models import User, FriendRequest, Friend, ExerciseRecord
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ExerciseRecordForm
+from django.utils import timezone
 
 # Create your views here.
 @login_required
@@ -187,3 +192,79 @@ def get_friends_sleep_records(request):
     
     context = {'exercise_records': friends_exercise_records,}
     return render(request, 'friends/friends_exercise_records.html', context)
+
+@login_required
+def start_exercise(request):
+    """
+    運動を開始する
+    """
+    user = request.user
+    
+    # 既に運動中かチェック
+    if user.last_exercise_time:
+        messages.warning(request, '既に運動を開始しています')
+        return redirect('index')
+    
+    # 現在時刻を保存
+    user.last_exercise_time = timezone.now()
+    user.save()
+    
+    messages.success(request, '運動を開始しました！')
+    return redirect('index')
+
+@login_required
+def finish_exercise(request):
+    """
+    運動を終了する
+    """
+    user = request.user
+    
+    # 運動を開始しているかチェック
+    if not user.last_exercise_time:
+        messages.error(request, '運動を開始していません')
+        return redirect('index')
+    
+    if request.method == 'POST':
+        form = ExerciseRecordForm(request.POST)
+        if form.is_valid():
+            exercise_record = form.save(commit=False)
+            exercise_record.user = user
+            exercise_record.exercise_start_time = user.last_exercise_time
+            exercise_record.exercise_end_time = timezone.now()
+            exercise_record.save()
+            
+            # last_exercise_timeをリセット
+            user.last_exercise_time = None
+            user.save()
+            
+            # 運動時間を計算
+            duration = exercise_record.exercise_end_time - exercise_record.exercise_start_time
+            duration_minutes = int(duration.total_seconds() / 60)
+            
+            messages.success(request, f'運動を記録しました！（運動時間: {duration_minutes}分）')
+            return redirect('exercise_record_list')
+    else:
+        form = ExerciseRecordForm()
+    
+    # 現在の運動時間を計算
+    current_duration = timezone.now() - user.last_exercise_time
+    current_minutes = int(current_duration.total_seconds() / 60)
+    
+    context = {
+        'form': form,
+        'start_time': user.last_exercise_time,
+        'current_duration': current_minutes,
+    }
+    return render(request, 'exercise/finish_exercise.html', context)
+
+
+# @login_required
+# class ExerciseRecordCreateView(LoginRequiredMixin, CreateView):
+#     model = ExerciseRecord
+#     form_class = ExerciseRecordForm
+#     template_name = 'exercise_record_form.html'
+#     success_url = reverse_lazy('index')
+    
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super().form_valid(form)
