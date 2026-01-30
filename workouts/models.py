@@ -20,13 +20,66 @@ class ExerciseRecord(models.Model):
     exercise_start_time = models.DateTimeField()
     exercise_end_time = models.DateTimeField()
     diary = models.TextField(blank=True)
+    # 運動時間（分単位で保存）
+    duration_minutes = models.IntegerField()
+    # 記録日時（自動設定）
+    created_at = models.DateTimeField(auto_now_add=True,)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = '運動記録'
+        verbose_name_plural = '運動記録'
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.created_at.strftime('%Y/%m/%d %H:%M')}"
+    
+    @property
+    def duration_display(self):
+        """
+        運動時間を「〇時間〇分」形式で表示するプロパティ
+        """
+        if self.duration_minutes is not None:
+            if self.duration_minutes == 0:
+                return "1分未満"
+            
+            hours = self.duration_minutes // 60
+            minutes = self.duration_minutes % 60
+            
+            if hours > 0:
+                if minutes > 0:
+                    return f"{hours}時間{minutes}分"
+                else:
+                    return f"{hours}時間"
+            else:
+                return f"{minutes}分"
+        
+        return "不明"
+    
+    @classmethod
+    def calculate_duration(cls, start_time, end_time):
+        """
+        開始時刻と終了時刻から運動時間（分）を計算
+        """
+        if start_time and end_time:
+            delta = end_time - start_time
+            return int(delta.total_seconds() / 60)
+        return 0
+
+class FriendRequest(models.Model):
+    from_user = models.ForeignKey(
+        User,
+        related_name='sent_requests',
+        on_delete=models.CASCADE
+    )
+    to_user = models.ForeignKey(
+        User,
+        related_name='received_requests',
+        on_delete=models.CASCADE
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def sleep_duration(self):
-        return self.exercise_end_time - self.exercise_start_time
-
     def __str__(self):
-        return f"{self.user.username} - {self.created_at}"
+        return f"{self.from_user} - {self.to_user}"
 
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(
