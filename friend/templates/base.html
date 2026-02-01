@@ -1,0 +1,27 @@
+<h2>ユーザー検索</h2>
+
+<form method="get">
+    <input
+        type="text"
+        name="q"
+        value="{{ query }}"
+        placeholder="ユーザー名で検索"
+    >
+    <button type="submit">検索</button>
+</form>
+
+{% if query %}
+    <hr>
+    {% if users %}
+        <ul>
+            {% for user in users %}
+                <li>
+                    {{ user.username }}
+                    <!-- ここに後でフレンド申請ボタン -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>該当するユーザーがいません</p>
+    {% endif %}
+{% endif %}

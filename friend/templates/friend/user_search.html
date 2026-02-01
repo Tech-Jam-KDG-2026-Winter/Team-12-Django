@@ -1,0 +1,33 @@
+{% extends "base.html"%}
+{% block title %}運動管理アプリ{% endblock %}
+{% block h1 %}運動管理アプリ{% endblock %}
+{% block content %}
+<div class="row">
+    <form method="get">
+        <input type="text" name="q" placeholder="ユーザー名検索">
+        <button type="submit">検索</button>
+    </form>
+
+    <ul>
+        {% for user in users %}
+        <p>{{ user.username }}
+
+            {% if user.is_friend %}
+            <span>フレンド</span>
+
+            {% elif user.friend_request %}
+                <form action="{% url 'friend:cancel_friend_request' user.friend_request.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">キャンセル</button>
+                </form>
+            {% else %}
+                <form action="{% url 'friend:send_friend_request' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">申請する</button>
+                </form>
+            {% endif %}
+        </p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
