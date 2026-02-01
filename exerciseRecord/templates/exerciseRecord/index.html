@@ -2,26 +2,26 @@
 {% block title %}運動管理アプリ{% endblock %}
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
-<div class="row">
-    <div class="col-9">
+<div>
+    <div>
         <h2>ログインユーザー情報</h2>
         <p>ユーザー名: {{ user_profile.username }}</p>
         <p>メール: {{ user_profile.email }}</p>
         <p>登録日: {{ user_profile.date_joined }}</p>
     </div>
-    <a class="nav-link mx-3" href="{% url 'exercising' %}">運動スタート</a>
-    <a class="nav-link mx-3" href="{% url 'friend:user_search' %}">フレンド追加</a>
-    <a class="nav-link mx-3" href="{% url 'friend:friends_list' %}">フレンド一覧</a>
-    <a class="nav-link mx-3" href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請一覧</a>
-    <a class="nav-link mx-3" href="{% url 'friend:sent_requests' %}">送ったフレンド申請一覧</a>
-    <a class="nav-link mx-3" href="{% url 'friends_exercise_records' %}">フレンド運動一覧</a>
-    <div class="col-9">
+    <a href="{% url 'exercising' %}">運動スタート</a>
+    <a href="{% url 'friend:user_search' %}">フレンド追加</a>
+    <a href="{% url 'friend:friends_list' %}">フレンド一覧</a>
+    <a href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請一覧</a>
+    <a href="{% url 'friend:sent_requests' %}">送ったフレンド申請一覧</a>
+    <a href="{% url 'friends_exercise_records' %}">フレンド運動一覧</a>
+    <div>
         {% for exercise_record in exercise_records %}
-            <div class="p-4 m-4 bg-light border border-success rounded">
-                <h2 class="text-success">運動時間: {{ exercise_record.duration_minutes }}</h2>
-                <h4 class="text-success">感想: {{ exercise_record.diary }}</h4>
-                <h6 class="text-success">開始時刻: {{ exercise_record.exercise_start_time }}</h6>
-                <h6 class="text-success">終了時刻: {{ exercise_record.exercise_end_time }}</h6>
+            <div>
+                <h2>運動時間: {{ exercise_record.duration_minutes }}</h2>
+                <h4>感想: {{ exercise_record.diary }}</h4>
+                <h6>開始時刻: {{ exercise_record.exercise_start_time }}</h6>
+                <h6>終了時刻: {{ exercise_record.exercise_end_time }}</h6>
             </div>
         {% endfor %}
     </div>

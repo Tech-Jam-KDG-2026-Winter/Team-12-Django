@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>ログイン</h1>
-    <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
+    <form method="post">
         {% csrf_token %}
         {% for error in form.errors.values %}
             {{ error}}
@@ -10,12 +10,12 @@
         <label>
             ユーザーID
         </label>
-        <input class="form-control" name="username">
+        <input name="username">
         <label>
             パスワード
         </label>
-        <input type="password" class="form-control" name="password">
-        <button type="submit" class="btn btn-success mt-4">ログインする</button>
+        <input type="password" name="password">
+        <button type="submit">ログインする</button>
     </form>
-    <a class="nav-link mx-3" href="{% url 'accounts:signup' %}">新規作成</a>
+    <a href="{% url 'accounts:signup' %}">新規作成</a>
 {% endblock %}

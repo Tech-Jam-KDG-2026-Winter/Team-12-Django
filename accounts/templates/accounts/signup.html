@@ -3,16 +3,16 @@
 {% block title %}アカウント作成{% endblock %}
 {% block h1 %}アカウント作成{% endblock %}
 {% block content %}
-    <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
+    <form method="post">
         {% csrf_token %}
-        <input type="text" name="username" class="form-control my-4" placeholder="ユーザーID">
-        <input type="password" name="password1" class="form-control my-4" placeholder="パスワード">
-        <input type="password" name="password2" class="form-control my-4" placeholder="パスワード確認用">
-        <small class="mb-2 d-block text-start">パスワードは8文字以上で設定してください。</small>
+        <input type="text" name="username" placeholder="ユーザーID">
+        <input type="password" name="password1" placeholder="パスワード">
+        <input type="password" name="password2" placeholder="パスワード確認用">
+        <small>パスワードは8文字以上で設定してください。</small>
         {% if form.errors %}
             <span>利用できないユーザーIDやパスワードに間違いがあります。入力内容を再度ご確認ください</span>
             <pre>{{ form.errors }}</pre>
         {% endif %}
-        <button type="submit" class="btn btn-success m-2">アカウント作成</button>
+        <button type="submit">アカウント作成</button>
     </form>
 {% endblock %}
