@@ -98,8 +98,7 @@ def post_exercise(request, pk):
 
 @login_required
 def index_view(request):
-    exercise_records = ExerciseRecord.objects.order_by("-id")
-
+    exercise_records = ExerciseRecord.objects.filter(user=request.user).order_by("-created_at")
 
     return render(
         request,

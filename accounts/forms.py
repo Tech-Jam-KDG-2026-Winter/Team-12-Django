@@ -3,7 +3,7 @@ from .models import User
 
 
 
-class SignupForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username",)
