@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'workouts',
+    'accounts',
+    'friend',
+    'exerciseRecord',
 ]
 
 MIDDLEWARE = [
@@ -116,4 +119,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = '/workouts/accounts/login/'
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"

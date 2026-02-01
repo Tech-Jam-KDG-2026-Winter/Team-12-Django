@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% block title %}運動管理アプリ{% endblock %}
+{% block h1 %}運動管理アプリ{% endblock %}
+{% block content %}
+<div>
+    <h2>送ったフレンド申請一覧</h2>
+
+    {% if sent_requests %}
+    <ul>
+        {% for req in sent_requests %}
+        <li>
+            {{ req.to_user.username }}
+            <form action="{% url 'friend:cancel_friend_request' req.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">キャンセル</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>フレンド申請をしていません</p>
+    {% endif %}
+</div>
+{% endblock content %}

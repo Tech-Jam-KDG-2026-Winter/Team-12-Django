@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}運動記録を投稿{% endblock %}
+
+{% block content %}
+<h1>運動お疲れ様でした！</h1>
+
+<h2>運動データ</h2>
+<table>
+    <tr>
+        <th>開始時刻</th>
+        <td>{{ record.exercise_start_time|date:"Y年m月d日 H:i" }}</td>
+    </tr>
+    <tr>
+        <th>終了時刻</th>
+        <td>{{ record.exercise_end_time|date:"Y年m月d日 H:i" }}</td>
+    </tr>
+    <tr>
+        <th>運動時間</th>
+        <td>{{ record.duration_display }}</td>
+    </tr>
+</table>
+
+<h2>感想を入力</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+        <button type="submit">投稿する</button>
+    </div>
+</form>
+{% endblock %}

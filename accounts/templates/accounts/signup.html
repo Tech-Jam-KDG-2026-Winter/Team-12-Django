@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}アカウント作成{% endblock %}
+{% block h1 %}アカウント作成{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="ユーザーID">
+        <input type="password" name="password1" placeholder="パスワード">
+        <input type="password" name="password2" placeholder="パスワード確認用">
+        <small>パスワードは8文字以上で設定してください。</small>
+        {% if form.errors %}
+            <span>利用できないユーザーIDやパスワードに間違いがあります。入力内容を再度ご確認ください</span>
+            <pre>{{ form.errors }}</pre>
+        {% endif %}
+        <button type="submit">アカウント作成</button>
+    </form>
+{% endblock %}

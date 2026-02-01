@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{% block title %}運動管理アプリ{% endblock %}
+{% block h1 %}運動管理アプリ{% endblock %}
+{% block content %}
+<div>
+    <div>
+        {% for exercise_record in exercise_records %}
+            <div>
+                <h2>ユーザー: {{ exercise_record.user.username }}</h2>
+                <h2>運動時間: {{ exercise_record.duration_minutes }}</h2>
+                <h4>感想: {{ exercise_record.diary }}</h4>
+                <h6>開始時刻: {{ exercise_record.exercise_start_time }}</h6>
+                <h6>終了時刻: {{ exercise_record.exercise_end_time }}</h6>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

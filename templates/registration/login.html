@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>ログイン</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for error in form.errors.values %}
+            {{ error}}
+        {% endfor %}
+        <label>
+            ユーザーID
+        </label>
+        <input name="username">
+        <label>
+            パスワード
+        </label>
+        <input type="password" name="password">
+        <button type="submit">ログインする</button>
+    </form>
+    <a href="{% url 'accounts:signup' %}">新規作成</a>
+{% endblock %}

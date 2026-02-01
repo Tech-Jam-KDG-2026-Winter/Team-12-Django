@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}運動計測{% endblock %}
+
+{% block content %}
+<div>
+    {% if is_exercising %}
+        <div>
+            <p>● 運動中</p>
+        </div>
+        <div>
+            <p>開始時刻: {{ start_time|date:"H:i" }}</p>
+            <div id="elapsed-time">00:00:00</div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="end">
+            <button type="submit">■ 運動終了</button>
+        </form>
+
+        <script>
+            // 経過時間タイマー
+            function updateTimer() {
+                const startTime = new Date("{{ start_time|date:'Y-m-d H:i:s' }}");
+                const now = new Date();
+                const diff = Math.floor((now - startTime) / 1000);
+
+                if (diff < 0) return;
+
+                const hours = Math.floor(diff / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+                const seconds = (diff % 60).toString().padStart(2, '0');
+
+                document.getElementById('elapsed-time').textContent = `${hours}:${minutes}:${seconds}`;
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        </script>
+    {% else %}
+        <div>
+            <p>○ 待機中</p>
+        </div>
+        <div>
+            <p>運動を始めましょう！</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="start">
+            <button type="submit">▶ 運動開始</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html"%}
+{% block title %}運動管理アプリ{% endblock %}
+{% block h1 %}運動管理アプリ{% endblock %}
+{% block content %}
+<div>
+    <h2>フレンド一覧</h2>
+    {% if friends %}
+    <ul>
+        {% for friend in friends %}
+        <li>
+            <form action="{% url 'friend:remove_friend' friend.friend_id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">フレンド解除</button>
+            </form>
+            <p>
+                {{ friend.user.username }}
+            </p>
+            <p>
+                {{ friend.created_at }}
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>まだフレンドがいません</p>
+    {% endif %}
+</div>
+{% endblock content %}
