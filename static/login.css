@@ -162,12 +162,10 @@
     background: var(--accent-primary);
     color: white;
     margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
 }
 
 .btn-primary:hover {
     background: #0077ED;
-    box-shadow: 0 6px 16px rgba(10, 132, 255, 0.4);
     transform: translateY(-2px);
 }
 

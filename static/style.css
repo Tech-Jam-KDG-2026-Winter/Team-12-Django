@@ -9,7 +9,7 @@
     --text-secondary: #8B7355;
     --text-tertiary: #cdc3b8;
 
-    --accent-modal: rgb(209 209 209 / 60%);
+    --accent-modal: #c5bbaa;
     --accent-exercise: #E8B84D;
     --accent-primary: #D4A574;
     --accent-secondary: #ffeed9;
@@ -379,7 +379,7 @@ a {
 }
 
 .hamburger-menu.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
+    transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* ドロップダウンメニュー */
