@@ -1,33 +1,27 @@
 :root {
-    /* 背景色 - ベージュ・ブラウン系 */
-    --bg-primary: #F5F0E8;           /* メインの明るいベージュ背景 */
-    --bg-secondary: #E8DCC8;         /* セカンダリベージュ */
-    --bg-tertiary: #D4C4A8;          /* ターシャリベージュ */
+    --bg-primary: #F5F0E8;
+    --bg-secondary: #E8DCC8;
+    --bg-tertiary: #D4C4A8;
 
-    --ft-tertiary: #d2c09f;          /* ターシャリベージュ */
-    
-    /* テキスト色 */
-    --text-primary: #3E3020;         /* ダークブラウン（メインテキスト） */
-    --text-secondary: #8B7355;       /* ミディアムブラウン（サブテキスト） */
-    --text-tertiary: #cdc3b8;       /* ミディアムブラウン（サブテキスト） */
-    
-    /* アクセントカラー */
-    --accent-modal: rgb(209 209 209 / 60%);      /* 温かみのあるゴールデンイエロー */
-    --accent-exercise: #E8B84D;      /* 温かみのあるゴールデンイエロー */
-    --accent-primary: #D4A574;       /* ソフトなキャラメルブラウン */
-    --accent-secondary: #ffeed9;       /* ソフトなキャラメルブラウン */
-    --accent-gradient-start: #E8B84D; /* イエローグラデーション開始 */
-    --accent-gradient-end: #F4C96B;   /* イエローグラデーション終了 */
+    --ft-tertiary: #d2c09f;
 
-    /* カード・入力背景 */
-    --card-bg: rgba(255, 250, 240, 0.9);  /* アイボリーホワイト（半透明） */
-    --input-bg: rgba(255, 250, 240, 0.8);  /* 入力欄の背景 */
-    --input-focus-bg: rgba(218, 212, 199, 0.8);  /* 入力欄の背景 */
-    
-    /* ボーダー */
-    --border-color: rgba(139, 115, 85, 0.2); /* ソフトなブラウンボーダー */
+    --text-primary: #3E3020;
+    --text-secondary: #8B7355;
+    --text-tertiary: #cdc3b8;
+
+    --accent-modal: rgb(209 209 209 / 60%);
+    --accent-exercise: #E8B84D;
+    --accent-primary: #D4A574;
+    --accent-secondary: #ffeed9;
+    --accent-gradient-start: #E8B84D;
+    --accent-gradient-end: #F4C96B;
+
+    --card-bg: rgba(255, 250, 240, 0.9);
+    --input-bg: rgba(255, 250, 240, 0.8);
+    --input-focus-bg: rgba(218, 212, 199, 0.8);
+
+    --border-color: rgba(139, 115, 85, 0.2);
 }
-
 
 * {
     margin: 0;
