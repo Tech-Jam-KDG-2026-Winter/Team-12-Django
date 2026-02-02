@@ -12,6 +12,14 @@ class ExerciseRecord(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"
 
+    @property
+    def duration_display(self):
+        hours = self.duration_minutes // 60
+        minutes = self.duration_minutes % 60
+        if hours > 0:
+            return f"{hours}時間{minutes}分"
+        return f"{minutes}分"
+
     @classmethod
     def calculate_duration(cls, start_time, end_time):
         """
