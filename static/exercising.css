@@ -1,0 +1,30 @@
+.container {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inner-container {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-big {
+    width: 300px;
+    height: 150px;
+    font-size: 300%;
+}
+.button-big svg {
+    width: 48px;
+    height: 48px;
+}
+.text-big {
+    font-size: 500%;
+}
+.text-big-1 {
+    font-size: 300%;
+}

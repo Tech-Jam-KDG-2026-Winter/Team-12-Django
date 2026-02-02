@@ -1,18 +1,38 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
 {% block title %}アカウント作成{% endblock %}
 {% block h1 %}アカウント作成{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="ユーザーID">
-        <input type="password" name="password1" placeholder="パスワード">
-        <input type="password" name="password2" placeholder="パスワード確認用">
-        <small>パスワードは8文字以上で設定してください。</small>
-        {% if form.errors %}
-            <span>利用できないユーザーIDやパスワードに間違いがあります。入力内容を再度ご確認ください</span>
-            <pre>{{ form.errors }}</pre>
-        {% endif %}
-        <button type="submit">アカウント作成</button>
-    </form>
+<div class="login-container">
+    <div class="login-card">
+        <h2 class="login-title">新規登録</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="username">名前</label>
+                <input type="text" name="username" id="username" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">パスワード</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password1" class="form-input" placeholder="パスワード" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">パスワード確認用</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password2" class="form-input" placeholder="パスワード確認用" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">登録</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -1,29 +1,114 @@
-{% extends "base.html"%}
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
 {% block title %}運動管理アプリ{% endblock %}
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
-<div>
-    <div>
-        <h2>ログインユーザー情報</h2>
-        <p>ユーザー名: {{ user_profile.username }}</p>
-        <p>メール: {{ user_profile.email }}</p>
-        <p>登録日: {{ user_profile.date_joined }}</p>
+<div class="container">
+    <div class="profile-top-row">
+        <!-- ダミー -->
+        <div></div>
+        <div class="profile">
+            <img src="https://kotonohaworks.com/free-icons/wp-content/uploads/kkrn_icon_user_3.png" alt="">
+            <p>{{ user_profile.username }}</p>
+            <p>{{ user_profile.email }}</p>
+            <p>{{ user_profile.date_joined }}</p>
+        </div>
+        <div class="workouts-section">
+            {% for exercise_record in exercise_records %}
+                <div class="workout-card">
+                    <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
+                    <div class="workout-info">
+                        <!-- <div class="workout-name">サイクリング</div> -->
+                        <div class="workout-details">{{ exercise_record.diary }}</div>
+                    </div>
+                    <div class="workout-time">{{ exercise_record.duration_minutes }}</div>
+                    <!-- <div class="workout-time">{{ exercise_record.exercise_end_time }}</div> -->
+                    <!-- <div class="workout-time">{{ exercise_record.exercise_start_time }}</div> -->
+                </div>
+            {% endfor %}
+        </div>
+        <!-- ダミー -->
+        <div></div>
     </div>
-    <a href="{% url 'exercising' %}">運動スタート</a>
-    <a href="{% url 'friend:user_search' %}">フレンド追加</a>
-    <a href="{% url 'friend:friends_list' %}">フレンド一覧</a>
-    <a href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請一覧</a>
-    <a href="{% url 'friend:sent_requests' %}">送ったフレンド申請一覧</a>
-    <a href="{% url 'friends_exercise_records' %}">フレンド運動一覧</a>
-    <div>
-        {% for exercise_record in exercise_records %}
-            <div>
-                <h2>運動時間: {{ exercise_record.duration_minutes }}</h2>
-                <h4>感想: {{ exercise_record.diary }}</h4>
-                <h6>開始時刻: {{ exercise_record.exercise_start_time }}</h6>
-                <h6>終了時刻: {{ exercise_record.exercise_end_time }}</h6>
+    <div class="profile-bottom-row">
+        <!-- ダミー -->
+        <div></div>
+        <div></div>
+        <div class="graph-container">
+            <h2 class="graph-title">週間運動時間</h2>
+            <p class="graph-subtitle">直近7日間の運動記録</p>
+            <div class="chart">
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 75%;">
+                        <span class="bar-value">90分</span>
+                    </div>
+                    <div class="bar-label">月</div>
+                    <div class="bar-date">1/27</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 50%;">
+                        <span class="bar-value">60分</span>
+                    </div>
+                    <div class="bar-label">火</div>
+                    <div class="bar-date">1/28</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 40%;">
+                        <span class="bar-value">45分</span>
+                    </div>
+                    <div class="bar-label">水</div>
+                    <div class="bar-date">1/29</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 0%;">
+                        <span class="bar-value">0分</span>
+                    </div>
+                    <div class="bar-label">木</div>
+                    <div class="bar-date">1/30</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 85%;">
+                        <span class="bar-value">105分</span>
+                    </div>
+                    <div class="bar-label">金</div>
+                    <div class="bar-date">1/31</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 100%;">
+                        <span class="bar-value">120分</span>
+                    </div>
+                    <div class="bar-label">土</div>
+                    <div class="bar-date">2/1</div>
+                </div>
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: 65%;">
+                        <span class="bar-value">75分</span>
+                    </div>
+                    <div class="bar-label">日</div>
+                    <div class="bar-date">2/2</div>
+                </div>
             </div>
-        {% endfor %}
+    
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">495分</div>
+                    <div class="stat-label">週間合計</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">70.7分</div>
+                    <div class="stat-label">1日平均</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">120分</div>
+                    <div class="stat-label">最長記録</div>
+                </div>
+            </div>
+        </div>
+        <!-- ダミー -->
+        <div></div>
     </div>
 </div>
 {% endblock content %}

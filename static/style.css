@@ -1,0 +1,439 @@
+:root {
+    /* 背景色 - ベージュ・ブラウン系 */
+    --bg-primary: #F5F0E8;           /* メインの明るいベージュ背景 */
+    --bg-secondary: #E8DCC8;         /* セカンダリベージュ */
+    --bg-tertiary: #D4C4A8;          /* ターシャリベージュ */
+
+    --ft-tertiary: #d2c09f;          /* ターシャリベージュ */
+    
+    /* テキスト色 */
+    --text-primary: #3E3020;         /* ダークブラウン（メインテキスト） */
+    --text-secondary: #8B7355;       /* ミディアムブラウン（サブテキスト） */
+    --text-tertiary: #cdc3b8;       /* ミディアムブラウン（サブテキスト） */
+    
+    /* アクセントカラー */
+    --accent-modal: rgb(209 209 209 / 60%);      /* 温かみのあるゴールデンイエロー */
+    --accent-exercise: #E8B84D;      /* 温かみのあるゴールデンイエロー */
+    --accent-primary: #D4A574;       /* ソフトなキャラメルブラウン */
+    --accent-secondary: #ffeed9;       /* ソフトなキャラメルブラウン */
+    --accent-gradient-start: #E8B84D; /* イエローグラデーション開始 */
+    --accent-gradient-end: #F4C96B;   /* イエローグラデーション終了 */
+
+    /* カード・入力背景 */
+    --card-bg: rgba(255, 250, 240, 0.9);  /* アイボリーホワイト（半透明） */
+    --input-bg: rgba(255, 250, 240, 0.8);  /* 入力欄の背景 */
+    --input-focus-bg: rgba(218, 212, 199, 0.8);  /* 入力欄の背景 */
+    
+    /* ボーダー */
+    --border-color: rgba(139, 115, 85, 0.2); /* ソフトなブラウンボーダー */
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+    height: 100vh;
+    overflow-y: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.base-container {
+    margin: 0 auto;
+    background: var(--bg-primary);
+    width: 100%;
+    height: calc(100vh - 85px);
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-nav {
+    width: 100%;
+    height: 85px;
+    background: var(--ft-tertiary);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 0.5px solid var(--border-color);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    z-index: 1000;
+}
+
+.footer-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+.nav-item.active {
+    color: var(--text-primary);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    z-index: -1;
+}
+
+/* メトリクスグリッド */
+.metrics-grid {
+    padding: 0 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:active {
+    transform: scale(0.98);
+}
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--metric-color);
+    opacity: 0.8;
+}
+
+.metric-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 18px;
+    background: var(--metric-color);
+    opacity: 0.9;
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.metric-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.metric-unit {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-left: 2px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.workout-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease;
+}
+
+.workout-card:active {
+    transform: scale(0.98);
+}
+
+.workout-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.workout-info {
+    flex: 1;
+}
+
+.workout-name {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.workout-details {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.workout-time {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+/* アニメーション */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.workout-card {
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+
+input {
+    width: 100%;
+    padding: 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: var(--input-focus-bg);
+}
+
+input::placeholder {
+    color: var(--text-secondary);
+}
+textarea {
+    width: 100%;
+    padding: 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: var(--input-focus-bg);
+}
+
+textarea::placeholder {
+    color: var(--text-secondary);
+}
+
+button {
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.red-button {
+    color: rgb(255, 79, 79) !important;
+    background-color: rgb(243, 141, 161) !important;
+    border-color: rgb(255, 79, 79) !important;
+}
+
+.green-button {
+    color: rgb(7, 180, 7) !important;
+    background-color: #a4f540 !important;
+    border-color: rgb(7, 180, 7) !important;
+}
+
+.unstyle-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ハンバーガーメニューボタン */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    background-color: #323232;
+}
+
+.hamburger-menu span {
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* メニューが開いているときのボタンアニメーション */
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ドロップダウンメニュー */
+.menu-dropdown {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 300px;
+    background-color: var(--accent-modal);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    z-index: 999;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.menu-dropdown.active {
+    max-height: 500px;
+    opacity: 1;
+}
+
+/* メニューナビゲーション */
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background-color: var(--accent-modal);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.menu-link:hover {
+    transform: translateX(5px);
+}
+
+.menu-link svg {
+    flex-shrink: 0;
+}

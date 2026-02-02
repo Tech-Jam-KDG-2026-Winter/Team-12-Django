@@ -1,32 +1,67 @@
 {% extends "base.html"%}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user_search.css' %}">
+{% endblock %}
 {% block title %}運動管理アプリ{% endblock %}
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
-<div>
-    <form method="get">
-        <input type="text" name="q" placeholder="ユーザー名検索">
-        <button type="submit">検索</button>
-    </form>
+<div class="container">
+    <div class="search-header">
+        <form class="search-form" method="get">
+            <input type="text" name="q" placeholder="ユーザー名検索">
+            <button type="submit">検索</button>
+        </form>
 
-    <ul>
+        <button id="menu-toggle" class="hamburger-menu" aria-label="メニューを開く">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div id="menu-dropdown" class="menu-dropdown">
+            <nav class="menu-nav">
+                <a class="menu-link" href="{% url 'friend:friends_list' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+                フレンド
+            </a>
+            <a class="menu-link" href="{% url 'friend:user_search' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+                フレンドを追加
+            </a>
+            <a class="menu-link" href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請</a>
+            <a class="menu-link" href="{% url 'friend:sent_requests' %}">送ったフレンド申請</a>
+            </nav>
+        </div>
+    </div>
+
+    <ul class="workouts-section">
         {% for user in users %}
-        <p>{{ user.username }}
-
+        <li class="workout-card">
+            <p class="workout-info">{{ user.username }}</p>
             {% if user.is_friend %}
-            <span>フレンド</span>
-
+            <span class="workout-time">フレンド</span>
             {% elif user.friend_request %}
-                <form action="{% url 'friend:cancel_friend_request' user.friend_request.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">キャンセル</button>
-                </form>
+            <form action="{% url 'friend:cancel_friend_request' user.friend_request.id %}" method="post">
+                {% csrf_token %}
+                <button class="red-button workout-time" type="submit">キャンセル</button>
+            </form>
             {% else %}
-                <form action="{% url 'friend:send_friend_request' user.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">申請する</button>
-                </form>
+            <form action="{% url 'friend:send_friend_request' user.id %}" method="post">
+                {% csrf_token %}
+                <button class="green-button workout-time" type="submit">申請する</button>
+            </form>
             {% endif %}
-        </p>
+        </li>
         {% endfor %}
     </ul>
 </div>
