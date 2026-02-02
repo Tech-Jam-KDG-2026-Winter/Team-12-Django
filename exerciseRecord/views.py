@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from exerciseRecord.forms import ExerciseRecordForm
+from datetime import datetime, timedelta
 from django.utils import timezone
+from django.db.models import Sum
+from django.db.models.functions import TruncDate
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -10,6 +13,7 @@ from .models import ExerciseRecord
 from friend.models import Friend
 from .consts import ITEM_PER_PAGE
 from django.db.models import Q
+import calendar
 
 
 @login_required
@@ -98,14 +102,66 @@ def post_exercise(request, pk):
 
 @login_required
 def index_view(request):
-    exercise_records = ExerciseRecord.objects.filter(user=request.user).order_by("-created_at")
+    user = request.user
+    exercise_records = ExerciseRecord.objects.filter(user=user).order_by("-created_at")
+    today = timezone.localdate()
+    start_date = today - timedelta(days=6)
+
+    start_datetime = timezone.make_aware(
+        datetime.combine(start_date, datetime.min.time())
+    )
+    end_datetime = timezone.make_aware(
+        datetime.combine(today, datetime.max.time())
+    )
+
+    # 日付ごとに運動時間を合算
+    records = (
+        ExerciseRecord.objects
+        .filter(
+            user=user,
+            created_at__range=(start_datetime, end_datetime)
+        )
+        .annotate(date=TruncDate("created_at"))
+        .values("date")
+        .annotate(total_minutes=Sum("duration_minutes"))
+        .order_by("date")
+    )
+    weekly_data = []
+    total_time = 0
+    max_time = 0
+
+    date_map = {r["date"]: r["total_minutes"] for r in records}
+
+    for i in range(7):
+        day = start_date + timedelta(days=i)
+        minutes = date_map.get(day, 0)
+
+        total_time += minutes
+        max_time = max(max_time, minutes)
+        height = int((minutes / max_time) * 100) if max_time > 0 else 0
+
+        weekly_data.append({
+            "day_of_the_week": calendar.day_abbr[day.weekday()],
+            "date": f"{day.month}/{day.day}",
+            "time": minutes,
+            "height": height,  # ← これを渡す
+        })
+
+
+    average_time = total_time // 7
 
     return render(
         request,
         "exerciseRecord/index.html",
         {
             "exercise_records": exercise_records,
-            "user_profile": request.user,  # ←ここでユーザー情報を渡す
+            "weekly_records": {
+                "records": weekly_data,
+                "total_time": total_time,
+                "average_time": average_time,
+                "max_time": max_time,
+            },
+            "user_profile": user,
         },
     )
 

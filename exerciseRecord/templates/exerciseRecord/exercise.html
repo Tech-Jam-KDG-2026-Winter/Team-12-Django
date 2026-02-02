@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'post_exercise.css' %}">
+{% endblock %}
+{% block title %}運動記録を投稿{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 運動データ -->
+    <div class="workout-data-section">
+        <div class="workout-type-card">
+            <h2 class="workout-type-name">ランニング</h2>
+            <p class="workout-category">有酸素運動</p>
+            <div class="time-info">
+                <div class="time-row">
+                    <span class="time-label">開始時刻</span>
+                    <span class="time-value">{{ record.exercise_start_time|date:"Y年m月d日 H:i" }}</span>
+                </div>
+                <div class="time-row">
+                    <span class="time-label">終了時刻</span>
+                    <span class="time-value">{{ record.exercise_end_time|date:"Y年m月d日 H:i" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="duration-card">
+            <div class="duration-label">運動時間</div>
+            <div>
+                <span class="duration-value">{{ record.duration_minutes }}</span>
+                <span class="duration-unit">分</span>
+            </div>
+        </div>
+
+        <div class="notes-section">
+
+            <h3 class="section-title">感想を入力</h3>
+            <div class="notes-card">
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea
+                        id="notesInput"
+                        class="notes-input"
+                        name="diary"
+                        placeholder="運動の内容や感想を記録してください"
+                    >{{ form.diary.value|default_if_none:"" }}</textarea>
+                    <button class="edit-button" type="submit">
+                        感想を保存
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
