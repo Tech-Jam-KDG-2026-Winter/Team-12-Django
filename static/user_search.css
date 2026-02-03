@@ -63,5 +63,5 @@
     font-size: 14px;
     color: var(--text-secondary);
     text-align: right;
-    margin-left: auto; /* 追加 */
+    margin-left: auto;
 }
