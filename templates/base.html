@@ -58,22 +58,24 @@
             <form method="post" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}
                 <button class="unstyle-button nav-item" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        data-lucide="user" aria-hidden="true" class="lucide lucide-user">
-                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="24"
+                        width="24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path
+                            d="m17 7-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z">
+                        </path>
                     </svg>
                     ログアウト
                 </button>
             </form>
             {% else %}
             <a class="nav-item" href="{% url 'accounts:login' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    data-lucide="user" aria-hidden="true" class="lucide lucide-user">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="24"
+                    width="24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path
+                        d="M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z">
+                    </path>
                 </svg>
                 ログイン
             </a>
@@ -96,14 +98,14 @@
             const menuDropdown = document.getElementById('menu-dropdown');
             if (menuToggle && menuDropdown) {
                 // メニューの開閉
-                menuToggle.addEventListener('click', function(e) {
+                menuToggle.addEventListener('click', function (e) {
                     e.stopPropagation();
                     menuToggle.classList.toggle('active');
                     menuDropdown.classList.toggle('active');
                 });
 
                 // メニュー外をクリックしたら閉じる
-                document.addEventListener('click', function(e) {
+                document.addEventListener('click', function (e) {
                     if (!menuDropdown.contains(e.target) && !menuToggle.contains(e.target)) {
                         menuToggle.classList.remove('active');
                         menuDropdown.classList.remove('active');
