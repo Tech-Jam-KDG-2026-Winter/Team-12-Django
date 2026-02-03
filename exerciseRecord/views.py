@@ -190,7 +190,7 @@ def friends_execise_records(request):
     # フレンドの運動記録を取得
     friends_exercise_records = ExerciseRecord.objects.filter(
         user_id__in=friend_ids
-    ).select_related('user').order_by('-created_at')[:50]  # 最新50件
+    ).select_related('user').order_by('-created_at')
 
     context = {'exercise_records': friends_exercise_records,}
     return render(request, 'exerciseRecord/friends_exercise_records.html', context)

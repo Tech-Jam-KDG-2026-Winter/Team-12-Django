@@ -153,3 +153,12 @@
     font-size: 13px;
     color: #888888;
 }
+
+.friends-exercise-record-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.friends-exercise-user {
+    display: flex;
+}
