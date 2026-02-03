@@ -11,6 +11,12 @@ class User(AbstractUser):
         blank=True,
         help_text="最後に運動を始めた時間"
     )
+    profile_image = models.ImageField(
+        upload_to='profile_images/',  # MEDIA_ROOT/profile_images/ に保存
+        blank=True,
+        null=True,
+        default='dummy.png'  # デフォルト画像
+    )
 
     def __str__(self):
         return self.username

@@ -10,8 +10,9 @@
 <div class="login-container">
     <div class="login-card">
         <h2 class="login-title">新規登録</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="file" name="profile_image" id="profile_image" required>
             <div class="form-group">
                 <label class="form-label" for="username">名前</label>
                 <input type="text" name="username" id="username" class="form-input" required>

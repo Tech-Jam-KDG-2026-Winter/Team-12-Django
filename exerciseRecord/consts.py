@@ -136,5 +136,11 @@ EXERCISES = {
         "exercises": [
             "その他"
         ]
+    },
+    "e-sports": {
+        "name": "eスポーツ",
+        "exercises": [
+            "League of Legends"
+        ]
     }
 }
