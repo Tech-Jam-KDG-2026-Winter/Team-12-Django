@@ -6,25 +6,46 @@
 {% block title %}運動管理アプリ{% endblock %}
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
-<div class="workouts-section">
-    <div class="section-header">
-        <div class="section-title">フレンドの運動記録</div>
+<div class="container">
+    <div class="header">
+        <h1 class="page-title">フレンドの運動記録</h1>
     </div>
-    {% for exercise_record in exercise_records %}
-    <div class="friends-exercise-record-card">
-        <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
-        <div class="friends-exercise-user">
-            {{ exercise_record.user.username }}
-            <img class="friends-exercise-icon" src="{{ exercise_record.user.profile_image.url }}">
-        </div>
-        <div class="friends-exercise-info">
-            <div class="friends-exercise-name">{{ exercise_record.exercise_type|default:"その他" }}</div>
-            <div class="friends-exercise-details">{{ exercise_record.diary }}</div>
-        </div>
-        <div class="friends-exercise-time">{{ exercise_record.duration_minutes }}分</div>
-        <!-- <div class="workout-time">{{ exercise_record.exercise_end_time }}</div> -->
-        <!-- <div class="workout-time">{{ exercise_record.exercise_start_time }}</div> -->
+    <div class="workout-feed">
+        {% for exercise_record in exercise_records %}
+        <article class="workout-post">
+            <div class="post-header">
+                <img class="avatar" src="{{ exercise_record.user.profile_image.url }}" alt="">
+                <div class="user-details">
+                    <div class="username">{{ exercise_record.user.username }}</div>
+                    <div class="post-time">{{ exercise_record.exercise_end_time }} 終了</div>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <h2 class="workout-type">{{ exercise_record.exercise_type|default:"その他" }}</h2>
+                
+                <div class="workout-stats">
+                    <div class="stat-item">
+                        <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span class="stat-value">{{ exercise_record.duration_minutes }}分</span>
+                    </div>
+                    <div class="stat-item">
+                        <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                        <span class="stat-value">{{ exercise_record.exercise_start_time }} 開始</span>
+                    </div>
+                </div>
+
+                <div class="workout-note">
+                    {{ exercise_record.diary|default:"感想なし" }}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock content %}

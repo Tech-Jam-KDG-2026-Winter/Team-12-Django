@@ -1,5 +1,5 @@
 .container {
-    width: 80vw;
+    width: 80%;
     height: 100%;
     grid-template-rows: auto 1fr;
 }

@@ -9,18 +9,20 @@
     --text-secondary: #8B7355;
     --text-tertiary: #cdc3b8;
 
-    --accent-modal: #c5bbaa;
+    --accent-modal: #e4d9c5;
     --accent-exercise: #E8B84D;
     --accent-primary: #D4A574;
     --accent-secondary: #ffeed9;
     --accent-gradient-start: #E8B84D;
     --accent-gradient-end: #F4C96B;
 
-    --card-bg: rgba(255, 250, 240, 0.9);
-    --input-bg: rgba(255, 250, 240, 0.8);
+    --card-bg: rgb(255, 248, 234);
+    --input-bg: rgb(250, 245, 234);
     --input-focus-bg: rgba(218, 212, 199, 0.8);
-
     --border-color: rgba(139, 115, 85, 0.2);
+
+    --nav-bg: #d4c4a8;
+    --nav-icon: #8b7355;
 }
 
 * {
