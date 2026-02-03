@@ -33,15 +33,17 @@
         <li class="workout-card">
             {{ req.from_user.username }}
 
-            <form method="post" action="{% url 'friend:accept_request' req.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="green-button workout-time">承認</button>
-            </form>
-
-            <form method="post" action="{% url 'friend:reject_request' req.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="red-button workout-time">拒否</button>
-            </form>
+            <div class="auth">
+                <form method="post" action="{% url 'friend:accept_request' req.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="green-button workout-time">承認</button>
+                </form>
+    
+                <form method="post" action="{% url 'friend:reject_request' req.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="red-button workout-time">拒否</button>
+                </form>
+            </div>
         </li>
         {% endfor %}
         {% else %}

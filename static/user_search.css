@@ -58,3 +58,10 @@
     padding-top: 20px;
     justify-items: center;
 }
+
+.auth {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: right;
+    margin-left: auto; /* 追加 */
+}
