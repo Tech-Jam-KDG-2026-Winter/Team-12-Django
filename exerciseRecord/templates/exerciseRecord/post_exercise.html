@@ -7,11 +7,17 @@
 
 {% block content %}
 <div class="container">
+    <div class="select-inner-container" id="select-inner-container">
+    </div>
     <!-- 運動データ -->
     <div class="workout-data-section">
         <div class="workout-type-card">
-            <h2 class="workout-type-name">ランニング</h2>
-            <p class="workout-category">有酸素運動</p>
+            <!-- <h2 class="workout-type-name">ランニング</h2> -->
+            <!-- <h2 class="workout-type-name" name="exercise_type" id="exercise-type-input">種目を選びましょう</h2> -->
+            <div class="workout-type-name" id="exercise-type-input">種目を選びましょう</div>
+            <!-- <select class="workout-type-name" name="exercise_type" id="exercise_type"> -->
+                <!-- <option value="">種目を選びましょう！</option> -->
+            <!-- </select> -->
             <div class="time-info">
                 <div class="time-row">
                     <span class="time-label">開始時刻</span>
@@ -38,6 +44,7 @@
             <div class="notes-card">
                 <form method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="exercise_type" id="exercise-type-input-value" value="その他">
                     <textarea
                         id="notesInput"
                         class="notes-input"
@@ -51,5 +58,81 @@
             </div>
         </div>
     </div>
+
+    {{ exercises_json|json_script:"exercises-data" }}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const EXERCISES = JSON.parse(
+                document.getElementById("exercises-data").textContent
+            );
+            const value = document.getElementById("exercise-type-input-value");
+            const select = document.getElementById("exercise-type-input");
+            const selectInnerContainer = document.getElementById("select-inner-container");
+            selectInnerContainer.classList.add("hidden");
+
+            const selectInnerContainerHeader = document.createElement("div");
+            selectInnerContainerHeader.classList.add("header");
+            const selectInnerContainerMain = document.createElement("div");
+            selectInnerContainerMain.classList.add("main");
+            selectInnerContainer.append(selectInnerContainerHeader, selectInnerContainerMain);
+
+            let filter = "all";
+            if (true) {
+                const tab = document.createElement("div");
+                tab.textContent = "全て";
+                tab.classList.add("tab");
+                tab.addEventListener("click", () => {
+                    filter = "all";
+                    updateInner();
+                })
+                selectInnerContainerHeader.append(tab);
+            }
+            for (const exercisesKey in EXERCISES) {
+                const tab = document.createElement("div");
+                tab.textContent = EXERCISES[exercisesKey].name;
+                tab.classList.add("tab");
+                tab.addEventListener("click", () => {
+                    filter = exercisesKey;
+                    updateInner();
+                })
+                selectInnerContainerHeader.append(tab);
+            }
+
+            const updateInner = () => {
+                selectInnerContainerMain.replaceChildren();
+                for (const exercisesKey in EXERCISES) {
+                    if (exercisesKey == filter || filter == "all") {
+                        EXERCISES[exercisesKey].exercises.forEach(ex => {
+                            const exercise = document.createElement("div");
+                            exercise.classList.add("exercise");
+                            exercise.textContent = ex;
+                            exercise.addEventListener("click", () => {
+                                select.textContent = ex;
+                                value.value = ex;
+                            })
+                            selectInnerContainerMain.appendChild(exercise);
+                        });
+                    }
+                }
+            }
+
+            select.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const rect = select.getBoundingClientRect();
+                selectInnerContainer.style.top = `${rect.bottom}px`;
+                selectInnerContainer.style.left = `${(rect.left + rect.right) / 2}px`;
+                updateInner();
+                selectInnerContainer.classList.remove("hidden");
+                const hidden = (e) => {
+                    if (!selectInnerContainer.contains(e.target)) {
+                        selectInnerContainer.classList.add('hidden');
+                        document.removeEventListener("click", hidden);
+                    }
+                }
+                document.addEventListener("click", hidden)
+            })
+        })
+    </script>
 </div>
 {% endblock %}

@@ -21,10 +21,10 @@
                 <div class="workout-card">
                     <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
                     <div class="workout-info">
-                        <!-- <div class="workout-name">サイクリング</div> -->
+                        <div class="workout-name">{{ exercise_record.exercise_type|default:"その他" }}</div>
                         <div class="workout-details">{{ exercise_record.diary }}</div>
                     </div>
-                    <div class="workout-time">{{ exercise_record.duration_minutes }}</div>
+                    <div class="workout-time">{{ exercise_record.duration_minutes }}分</div>
                     <!-- <div class="workout-time">{{ exercise_record.exercise_end_time }}</div> -->
                     <!-- <div class="workout-time">{{ exercise_record.exercise_start_time }}</div> -->
                 </div>

@@ -13,23 +13,7 @@
 
 <body>
     <div class="base-container">
-        <!-- <nav class="header-date">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'index' %}">ホーム</a> |
-                    {{ user.username }} |
-                    <form method="post" action="{% url 'accounts:logout' %}">
-                        {% csrf_token %}
-                        <button type="submit">ログアウト</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'index' %}">ホーム</a> |
-                    <a href="{% url 'accounts:login' %}">ログイン</a> |
-                    <a href="{% url 'accounts:signup' %}">会員登録</a>
-                {% endif %}
-            </nav> -->
-
         {% block content %}{% endblock %}
-
     </div>
     <footer class="footer-nav">
         <div class="nav-items">
@@ -107,7 +91,7 @@
 
     <script>
         // JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const menuToggle = document.getElementById('menu-toggle');
             const menuDropdown = document.getElementById('menu-dropdown');
             if (menuToggle && menuDropdown) {

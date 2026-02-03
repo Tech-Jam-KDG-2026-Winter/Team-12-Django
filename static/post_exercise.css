@@ -161,6 +161,67 @@
     background: rgba(255, 255, 255, 0.15);
 }
 
+.select-inner-container {
+    position: absolute;
+    width: 500px;
+    height: 400px;
+    transform: translate(-50%);
+    background-color: var(--accent-modal);
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border-radius: 14px;
+}
+
+.select-inner-container .header {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+    padding: 5px;
+}
+.select-inner-container .header .tab {
+    width: fit-content;
+    height: 30px;
+    color: var(--text-primary);
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+.select-inner-container .main {
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 4px;
+    gap: 4px;
+}
+
+.select-inner-container .main .exercise {
+    width: calc(50% - 2px);
+    height: 30px;
+    color: var(--text-primary);
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (min-width: 768px) {
+    .select-inner-container .main .exercise {
+        width: calc(33.333% - 3px);
+    }
+}
+
 /* アニメーション */
 @keyframes fadeInUp {
     from {

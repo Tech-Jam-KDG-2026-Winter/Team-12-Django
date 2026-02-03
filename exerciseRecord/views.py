@@ -14,6 +14,8 @@ from friend.models import Friend
 from .consts import ITEM_PER_PAGE
 from django.db.models import Q
 import calendar
+import json
+from .consts import EXERCISES
 
 
 @login_required
@@ -97,7 +99,8 @@ def post_exercise(request, pk):
     # 'record': 運動時間などのデータ表示用
     return render(request, 'exerciseRecord/post_exercise.html', {
         'form': form,
-        'record': record
+        'record': record,
+        "exercises_json": EXERCISES,
     })
 
 @login_required
