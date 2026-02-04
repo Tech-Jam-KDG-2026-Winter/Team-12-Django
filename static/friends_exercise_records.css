@@ -45,6 +45,12 @@
     border: solid 1px var(--border-color);
     overflow: hidden;
     min-height: fit-content;
+    transition: transform 0.2s ease;
+}
+
+.workout-post {
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
 }
 
 .post-header {

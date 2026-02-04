@@ -103,23 +103,31 @@
     {% endif %}
 
     <script>
-        // JavaScript
         document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const menuDropdown = document.getElementById('menu-dropdown');
-            if (menuToggle && menuDropdown) {
-                // メニューの開閉
-                menuToggle.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    menuToggle.classList.toggle('active');
-                    menuDropdown.classList.toggle('active');
-                });
+            const footer_nav_items = document.getElementsByClassName('nav-items')[0];
+            const currentPath = window.location.pathname;
 
-                // メニュー外をクリックしたら閉じる
-                document.addEventListener('click', function (e) {
-                    if (!menuDropdown.contains(e.target) && !menuToggle.contains(e.target)) {
-                        menuToggle.classList.remove('active');
-                        menuDropdown.classList.remove('active');
+            const resetActive = () => {
+                for (const child of footer_nav_items.children) {
+                    child.classList.remove("active");
+                }
+            }
+
+            // 現在のURLに基づいてactiveを設定
+            for (const child of footer_nav_items.children) {
+                const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                if (link && link.getAttribute('href') === currentPath) {
+                    resetActive();
+                    child.classList.add("active");
+                }
+            }
+
+            // クリック時にlocalStorageに保存（オプション）
+            for (const child of footer_nav_items.children) {
+                child.addEventListener("click", () => {
+                    const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                    if (link) {
+                        localStorage.setItem('activeTab', link.getAttribute('href'));
                     }
                 });
             }

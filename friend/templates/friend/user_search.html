@@ -7,31 +7,25 @@
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
 <div class="container">
+    <div id="menu-dropdown" class="menu-dropdown">
+        <nav class="menu-nav">
+            <a class="menu-link" href="{% url 'friend:friends_list' %}">
+                フレンド
+            </a>
+            <a class="menu-link" href="{% url 'friend:user_search' %}">
+                フレンドを追加
+            </a>
+            <a class="menu-link" href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請</a>
+            <a class="menu-link" href="{% url 'friend:sent_requests' %}">
+                送ったフレンド申請
+            </a>
+        </nav>
+    </div>
     <div class="search-header">
         <form class="search-form" method="get">
             <input type="text" name="q" placeholder="ユーザー名検索">
             <button type="submit">検索</button>
         </form>
-
-        <button id="menu-toggle" class="hamburger-menu" aria-label="メニューを開く">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div id="menu-dropdown" class="menu-dropdown">
-            <nav class="menu-nav">
-                <a class="menu-link" href="{% url 'friend:friends_list' %}">
-                    フレンド
-                </a>
-                <a class="menu-link" href="{% url 'friend:user_search' %}">
-                    フレンドを追加
-                </a>
-                <a class="menu-link" href="{% url 'friend:friend_requests' %}">受け取ったフレンド申請</a>
-                <a class="menu-link" href="{% url 'friend:sent_requests' %}">
-                    送ったフレンド申請
-                </a>
-            </nav>
-        </div>
     </div>
 
     <ul class="workouts-section">
@@ -55,5 +49,36 @@
         </li>
         {% endfor %}
     </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const footer_nav_items = document.getElementsByClassName('menu-nav')[0];
+            const currentPath = window.location.pathname;
+
+            const resetActive = () => {
+                for (const child of footer_nav_items.children) {
+                    child.classList.remove("active");
+                }
+            }
+
+            // 現在のURLに基づいてactiveを設定
+            for (const child of footer_nav_items.children) {
+                const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                if (link && link.getAttribute('href') === currentPath) {
+                    resetActive();
+                    child.classList.add("active");
+                }
+            }
+
+            // クリック時にlocalStorageに保存（オプション）
+            for (const child of footer_nav_items.children) {
+                child.addEventListener("click", () => {
+                    const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                    if (link) {
+                        localStorage.setItem('activeTab', link.getAttribute('href'));
+                    }
+                });
+            }
+        });
+    </script>
 </div>
 {% endblock content %}

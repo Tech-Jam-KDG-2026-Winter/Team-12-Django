@@ -69,7 +69,6 @@
             const value = document.getElementById("exercise-type-input-value");
             const select = document.getElementById("exercise-type-input");
             const selectInnerContainer = document.getElementById("select-inner-container");
-            selectInnerContainer.classList.add("hidden");
 
             const selectInnerContainerHeader = document.createElement("div");
             selectInnerContainerHeader.classList.add("header");
@@ -123,10 +122,10 @@
                 // selectInnerContainer.style.top = `${rect.bottom}px`;
                 // selectInnerContainer.style.left = `${(rect.left + rect.right) / 2}px`;
                 updateInner();
-                selectInnerContainer.classList.remove("hidden");
+                selectInnerContainer.classList.add("open");
                 const hidden = (e) => {
                     if (!selectInnerContainer.contains(e.target)) {
-                        selectInnerContainer.classList.add('hidden');
+                        selectInnerContainer.classList.remove("open");
                         document.removeEventListener("click", hidden);
                     }
                 }

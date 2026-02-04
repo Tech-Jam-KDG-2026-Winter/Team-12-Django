@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}プロフィール編集{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>プロフィール編集</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">保存</button>
+  </form>
+  <a href="{% url 'index' %}">戻る</a>
+</div>
+{% endblock %}

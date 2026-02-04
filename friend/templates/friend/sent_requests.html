@@ -7,11 +7,6 @@
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
 <div class="container">
-    <button id="menu-toggle" class="hamburger-menu" aria-label="メニューを開く">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
     <div id="menu-dropdown" class="menu-dropdown">
         <nav class="menu-nav">
             <a class="menu-link" href="{% url 'friend:friends_list' %}">
@@ -43,5 +38,36 @@
         <p>フレンド申請をしていません</p>
         {% endif %}
     </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const footer_nav_items = document.getElementsByClassName('menu-nav')[0];
+            const currentPath = window.location.pathname;
+
+            const resetActive = () => {
+                for (const child of footer_nav_items.children) {
+                    child.classList.remove("active");
+                }
+            }
+
+            // 現在のURLに基づいてactiveを設定
+            for (const child of footer_nav_items.children) {
+                const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                if (link && link.getAttribute('href') === currentPath) {
+                    resetActive();
+                    child.classList.add("active");
+                }
+            }
+
+            // クリック時にlocalStorageに保存（オプション）
+            for (const child of footer_nav_items.children) {
+                child.addEventListener("click", () => {
+                    const link = child instanceof HTMLAnchorElement ? child : child.querySelector('a');
+                    if (link) {
+                        localStorage.setItem('activeTab', link.getAttribute('href'));
+                    }
+                });
+            }
+        });
+    </script>
 </div>
 {% endblock content %}

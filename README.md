@@ -23,3 +23,6 @@ accounts/
 
 test8
 dkwoadkowad
+
+adminuser
+iB8$82%Hc2tA
