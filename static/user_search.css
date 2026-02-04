@@ -24,11 +24,10 @@
 }
 
 /* 検索ボタン */
-.container button[type="submit"] {
+.container .search-button {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 12px 24px;
     color: var(--text-primary);
     font-size: 14px;
     cursor: pointer;

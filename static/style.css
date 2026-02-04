@@ -180,12 +180,12 @@ body {
     font-size: 14px;
     color: var(--text-secondary);
     text-align: right;
-    padding: 12px 24px;
+    padding: 6px 12px;
     border: 1px solid #ffffff00;
 }
 
 .workout-time + button {
-    padding: 12px 12px;
+    padding: 6px 6px;
 }
 
 /* アニメーション */
@@ -349,4 +349,19 @@ a {
     width: 44px;
     height: 44px;
     border-radius: 50%;
+}
+
+
+@media (max-width: 768px) {
+    .nav-item {
+        font-size: 0;
+    }
+    .profile-top-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr 1fr 0fr;
+    }
+    .profile-bottom-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr 1fr 0fr;
+    }
 }

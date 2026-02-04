@@ -8,24 +8,118 @@
     padding: 20px 0;
 }
 
-.profile-top-row {
+.profile-row {
     width: 100%;
     display: grid;
     grid-template-columns: 0.1fr 500px 1fr 0.1fr;
+    min-height: fit-content;
     height: fit-content;
-}
-
-/* 下段：スコア統計 + グラフ */
-.profile-bottom-row {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 0.1fr 500px 1fr 0.1fr;
+    overflow: hidden;
 }
 
 .profile {
+    display: flex;
+    flex-direction: column;
     width: 500px;
     height: 600px;
     padding: 20px;
+}
+
+
+.profile-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#profile-image {
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    /* Optional: Add hover effect to indicate clickable if no overlay */
+    transition: opacity 0.2s;
+}
+
+#profile-image:hover {
+    opacity: 0.8;
+}
+
+.username-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.username-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.username-edit-form {
+    width: 100%;
+    max-width: 300px;
+}
+
+.username-input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* ensure padding doesn't overflow width */
+}
+
+.edit-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
 }
 
 /* ワークアウトリスト */
@@ -155,98 +249,27 @@
     color: #888888;
 }
 
-.profile .profile-image-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.profile #profile-image {
-    max-width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    object-fit: cover;
-    /* Optional: Add hover effect to indicate clickable if no overlay */
-    transition: opacity 0.2s;
-}
-
-.profile #profile-image:hover {
-    opacity: 0.8;
-}
-
-.profile .username-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.profile .username-text {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-    margin: 0;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.profile .edit-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #888;
-    padding: 4px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-}
-
-.profile .edit-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: #333;
-}
-
-.profile .username-edit-form {
-    width: 100%;
-    max-width: 300px;
-}
-
-.profile .username-input {
-    width: 100%;
-    padding: 4px 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
-    /* ensure padding doesn't overflow width */
-}
-
-.profile .edit-actions {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-}
-
-.profile .save-btn,
-.profile .cancel-btn {
-    padding: 4px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.profile .save-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.profile .cancel-btn {
-    background-color: #f44336;
-    color: white;
+@media (max-width: 768px) {
+    .profile {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        padding: 20px;
+        flex-direction: row;
+    }
+    .profile-image-container {
+        width: 200px;
+        height: 200px;
+    }
+    .username-container {
+        flex-grow: 1;
+        width: auto;
+    }
+    .profile-top-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr 1fr 0fr;
+    }
+    .profile-bottom-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr 1fr 0fr;
+    }
 }

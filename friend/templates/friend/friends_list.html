@@ -30,7 +30,7 @@
             <p class="workout-info">{{ friend.user.username }}</p>
             <form action="{% url 'friend:remove_friend' friend.friend_id %}" method="post">
                 {% csrf_token %}
-                <button class="green-button workout-time" type="submit">フレンド解除</button>
+                <button class="red-button workout-time" type="submit">解除</button>
             </form>
         </li>
         {% endfor %}
