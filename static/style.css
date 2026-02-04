@@ -184,6 +184,10 @@ body {
     border: 1px solid #ffffff00;
 }
 
+.workout-time + button {
+    padding: 12px 12px;
+}
+
 /* アニメーション */
 @keyframes fadeInUp {
     from {

@@ -17,7 +17,6 @@ import calendar
 import json
 from .consts import EXERCISES
 
-
 @login_required
 def exercising(request):
     """
@@ -102,6 +101,11 @@ def post_exercise(request, pk):
         'record': record,
         "exercises_json": EXERCISES,
     })
+
+
+@login_required
+def remove_exercise():
+    return
 
 @login_required
 def index_view(request):
