@@ -177,7 +177,7 @@ def user_search(request):
             User.objects
             .filter(username__icontains=query)
             .exclude(id=request.user.id)
-        )[:5]  # 先頭5件だけ取得
+        )
 
     for user in users:
         # すでにフレンドか
