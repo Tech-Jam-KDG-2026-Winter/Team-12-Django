@@ -171,12 +171,14 @@ def user_search(request):
             User.objects
             .filter(username__icontains=query)
             .exclude(id=request.user.id)
+            .exclude(is_superuser=True)
         )
     else:
         users = (
             User.objects
             .filter(username__icontains=query)
             .exclude(id=request.user.id)
+            .exclude(is_superuser=True)
         )
 
     for user in users:
