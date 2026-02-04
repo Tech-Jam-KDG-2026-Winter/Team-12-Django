@@ -59,7 +59,7 @@ def update_profile(request):
                 from django.contrib.auth import get_user_model
                 User = get_user_model()
                 if User.objects.filter(username=new_username).exclude(pk=request.user.pk).exists():
-                    return JsonResponse({'status': 'error', 'message': 'Username already taken'}, status=400)
+                    return JsonResponse({'status': 'error', 'message': 'このユーザー名は既に使用されています。'}, status=400)
                 
                 request.user.username = new_username
                 changes_made = True

@@ -64,7 +64,7 @@ class UpdateProfileViewTests(TestCase):
         response = self.client.post(self.url, json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json()['status'], 'error')
-        self.assertEqual(response.json()['message'], 'Username already taken')
+        self.assertEqual(response.json()['message'], 'このユーザー名は既に使用されています。')
 
     def test_update_profile_empty_username(self):
         self.client.login(username='testuser', password='password')
