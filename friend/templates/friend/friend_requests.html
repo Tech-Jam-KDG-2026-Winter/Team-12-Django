@@ -31,7 +31,8 @@
         {% if received_requests %}
         {% for req in received_requests %}
         <li class="workout-card">
-            {{ req.from_user.username }}
+            <img class="avatar" src="{{ req.from_user.profile_image.url }}" alt="">
+            <p class="workout-info">{{ req.from_user.username }}</p>
 
             <div class="auth">
                 <form method="post" action="{% url 'friend:accept_request' req.id %}" style="display:inline;">

@@ -12,7 +12,10 @@
         <h2 class="login-title">新規登録</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="profile_image" id="profile_image" required>
+            <div class="icon-input">
+                <input type="file" name="profile_image" id="profile-image-input">
+                <img src="/media/profile_images/default_profile.png" id="profile-image-view" alt="">
+            </div>
             <div class="form-group">
                 <label class="form-label" for="username">名前</label>
                 <input type="text" name="username" id="username" class="form-input" required>
@@ -44,5 +47,34 @@
             アカウントをお持ちの方は <a href="{% url 'accounts:login' %}">ログイン</a>
         </div>
     </div>
+    <script>
+        // 画像クリックでファイル選択を開く
+        document.getElementById('profile-image-view').addEventListener('click', function () {
+            document.getElementById('profile-image-input').click();
+        });
+
+        // ファイル選択時のプレビュー表示
+        document.getElementById('profile-image-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const imageView = document.getElementById('profile-image-view');
+
+            if (file) {
+                // 画像ファイルかチェック
+                if (!file.type.startsWith('image/')) {
+                    alert('画像ファイルを選択してください');
+                    this.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imageView.src = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </div>
 {% endblock %}

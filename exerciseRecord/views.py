@@ -168,11 +168,10 @@ def index_view(request):
         },
     )
 
-
 @login_required
 def friends_execise_records(request):
     """
-    フレンドの運動記録を取得
+    フレンドの運動記録を取得（24時間以内）
     """
 
     # フレンド一覧を取得
@@ -187,10 +186,16 @@ def friends_execise_records(request):
         else:
             friend_ids.append(friendship.user1.id)
 
-    # フレンドの運動記録を取得
+    # 24時間前
+    since = timezone.now() - timedelta(hours=24)
+
+    # フレンドの運動記録を取得（24時間以内）
     friends_exercise_records = ExerciseRecord.objects.filter(
-        user_id__in=friend_ids
+        user_id__in=friend_ids,
+        created_at__gte=since
     ).select_related('user').order_by('-created_at')
 
-    context = {'exercise_records': friends_exercise_records,}
+    context = {
+        'exercise_records': friends_exercise_records,
+    }
     return render(request, 'exerciseRecord/friends_exercise_records.html', context)

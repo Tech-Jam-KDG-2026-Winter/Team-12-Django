@@ -459,3 +459,9 @@ a {
 ::-webkit-scrollbar-thumb:hover {
     background: #888; /* ホバー時の色 */
 }
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}

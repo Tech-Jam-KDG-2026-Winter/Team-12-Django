@@ -15,7 +15,7 @@ class User(AbstractUser):
         upload_to='profile_images/',  # MEDIA_ROOT/profile_images/ に保存
         blank=True,
         null=True,
-        default='dummy.png'  # デフォルト画像
+        default='profile_images/default_profile.png'  # デフォルト画像
     )
 
     def __str__(self):

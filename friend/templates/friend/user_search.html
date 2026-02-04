@@ -37,6 +37,7 @@
     <ul class="workouts-section">
         {% for user in users %}
         <li class="workout-card">
+            <img class="avatar" src="{{ user.profile_image.url }}" alt="">
             <p class="workout-info">{{ user.username }}</p>
             {% if user.is_friend %}
             <span class="workout-time">フレンド</span>

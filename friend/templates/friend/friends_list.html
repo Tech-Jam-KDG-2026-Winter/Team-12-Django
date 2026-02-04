@@ -31,6 +31,7 @@
         {% if friends %}
         {% for friend in friends %}
         <li class="workout-card">
+            <img class="avatar" src="{{ friend.user.profile_image.url }}" alt="">
             <p class="workout-info">{{ friend.user.username }}</p>
             <form action="{% url 'friend:remove_friend' friend.friend_id %}" method="post">
                 {% csrf_token %}

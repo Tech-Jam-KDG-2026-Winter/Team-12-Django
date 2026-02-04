@@ -7,14 +7,14 @@
 
 {% block content %}
 <div class="container">
-    <div class="select-inner-container" id="select-inner-container">
-    </div>
     <!-- 運動データ -->
     <div class="workout-data-section">
         <div class="workout-type-card">
             <!-- <h2 class="workout-type-name">ランニング</h2> -->
             <!-- <h2 class="workout-type-name" name="exercise_type" id="exercise-type-input">種目を選びましょう</h2> -->
             <div class="workout-type-name" id="exercise-type-input">種目を選びましょう</div>
+            <div class="select-inner-container" id="select-inner-container">
+            </div>
             <!-- <select class="workout-type-name" name="exercise_type" id="exercise_type"> -->
                 <!-- <option value="">種目を選びましょう！</option> -->
             <!-- </select> -->
@@ -119,9 +119,9 @@
 
             select.addEventListener("click", (e) => {
                 e.stopPropagation();
-                const rect = select.getBoundingClientRect();
-                selectInnerContainer.style.top = `${rect.bottom}px`;
-                selectInnerContainer.style.left = `${(rect.left + rect.right) / 2}px`;
+                // const rect = select.getBoundingClientRect();
+                // selectInnerContainer.style.top = `${rect.bottom}px`;
+                // selectInnerContainer.style.left = `${(rect.left + rect.right) / 2}px`;
                 updateInner();
                 selectInnerContainer.classList.remove("hidden");
                 const hidden = (e) => {
