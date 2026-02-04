@@ -18,7 +18,7 @@
     width: 500px;
     background: var(--accent-modal);
     border-radius: 24px;
-    padding: 32px;
+    padding: 24px;
     border: 1px solid var(--border-color);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -153,7 +153,7 @@
 .divider {
     display: flex;
     align-items: center;
-    margin: 24px 0;
+    margin: 12px 0;
     color: var(--text-secondary);
     font-size: 14px;
 }
@@ -280,7 +280,7 @@
     display: none;
 }
 .icon-input img {
-    width: 50%;
+    width: 20%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
 }
