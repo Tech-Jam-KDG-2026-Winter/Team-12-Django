@@ -115,7 +115,8 @@ def remove_exercise(request, pk):
 @login_required
 def index_view(request):
     user = request.user
-    exercise_records = ExerciseRecord.objects.filter(user=user).order_by("-created_at")
+    exercise_records = ExerciseRecord.objects.filter(user=user).order_by("-exercise_end_time")
+    print(exercise_records)
     today = timezone.localdate()
     start_date = today - timedelta(days=6)
 
@@ -131,9 +132,9 @@ def index_view(request):
         ExerciseRecord.objects
         .filter(
             user=user,
-            created_at__range=(start_datetime, end_datetime)
+            exercise_end_time__range=(start_datetime, end_datetime)
         )
-        .annotate(date=TruncDate("created_at"))
+        .annotate(date=TruncDate("exercise_end_time"))
         .values("date")
         .annotate(total_minutes=Sum("duration_minutes"))
         .order_by("date")
@@ -201,8 +202,8 @@ def friends_execise_records(request):
     # フレンドの運動記録を取得（24時間以内）
     friends_exercise_records = ExerciseRecord.objects.filter(
         user_id__in=friend_ids,
-        created_at__gte=since
-    ).select_related('user').order_by('-created_at')
+        exercise_end_time__gte=since
+    ).select_related('user').order_by('-exercise_end_time')
 
     context = {
         'exercise_records': friends_exercise_records,
