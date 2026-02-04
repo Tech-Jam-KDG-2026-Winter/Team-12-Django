@@ -98,6 +98,7 @@ body {
 .nav-item:hover {
     transform: scale(1.05);
 }
+
 .nav-item:active {
     transform: scale(0.95);
 }
@@ -140,7 +141,8 @@ body {
     margin-bottom: 12px;
     border: 1px solid var(--border-color);
     backdrop-filter: blur(20px);
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 16px;
     transition: transform 0.2s ease;
@@ -162,7 +164,9 @@ body {
 }
 
 .workout-info {
-    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 省略記号(...)を表示 */
 }
 
 .workout-name {
@@ -184,7 +188,7 @@ body {
     border: 1px solid #ffffff00;
 }
 
-.workout-time + button {
+.workout-time+button {
     padding: 6px 6px;
 }
 
@@ -229,6 +233,7 @@ input:focus {
 input::placeholder {
     color: var(--text-secondary);
 }
+
 textarea {
     width: 100%;
     padding: 16px;
@@ -326,28 +331,35 @@ a {
 }
 
 ::-webkit-scrollbar {
-    width: 8px; /* スクロールバーの幅 */
-    height: 8px; /* スクロールバーの幅 */
+    width: 8px;
+    /* スクロールバーの幅 */
+    height: 8px;
+    /* スクロールバーの幅 */
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--card-bg); /* トラック(背景)の色 */
+    background: var(--card-bg);
+    /* トラック(背景)の色 */
     border-radius: 4px;
     border: var(--border-color) solid 1px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--border-color); /* スクロールバー本体の色 */
+    background: var(--border-color);
+    /* スクロールバー本体の色 */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #888; /* ホバー時の色 */
+    background: #888;
+    /* ホバー時の色 */
 }
 
 .avatar {
-    width: 44px;
-    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 44px;
+    max-height: 44px;
     border-radius: 50%;
 }
 
@@ -356,12 +368,58 @@ a {
     .nav-item {
         font-size: 0;
     }
+
     .profile-top-row {
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 1fr 1fr 0fr;
     }
+
     .profile-bottom-row {
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 1fr 1fr 0fr;
+    }
+
+    .menu-dropdown {
+        width: 100%;
+        height: fit-content;
+        border: 0px solid var(--border-color);
+        border-bottom-width: 1px;
+        z-index: 999;
+    }
+
+    .menu-nav::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+
+    .menu-nav {
+        display: flex;
+        overflow-x: auto;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+        padding-bottom: 0;
+        height: 100%;
+    }
+
+    .menu-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 16px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        position: relative;
+        text-decoration: none;
+        white-space: nowrap;
+        color: var(--text-secondary);
+    }
+
+    .menu-link.active {
+        color: var(--text-primary);
+        border: 0px solid var(--text-primary);
+        border-bottom-width: 1px;
     }
 }

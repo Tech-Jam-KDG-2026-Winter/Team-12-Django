@@ -8,180 +8,180 @@
 {% block content %}
 <div class="container">
     <div class="profile-row">
-        <!-- ダミー -->
-        <div></div>
         <div class="profile">
             <div class="profile-image-container" id="profile-image-container">
                 <img src="{{ user.profile_image.url }}" alt="{{ user.username }}" id="profile-image">
             </div>
             <input type="file" id="profile-image-input" style="display: none;" accept="image/*">
 
-            <div class="username-container">
-                <p id="username-display" class="username-text">
-                    {{ user.username }}
-                    <button type="button" id="edit-username-btn" class="edit-btn" aria-label="ユーザー名義を変更">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                            <path
-                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                        </svg>
-                    </button>
-                </p>
-                <div id="username-edit-form" class="username-edit-form" style="display: none;">
-                    <input type="text" id="username-input" value="{{ user.username }}" class="username-input">
-                    <div class="edit-actions">
-                        <button type="button" id="save-username-btn" class="save-btn">保存</button>
-                        <button type="button" id="cancel-username-btn" class="cancel-btn">キャンセル</button>
+            <div class="userdetail-container">
+                <div class="username-container">
+                    <p id="username-display" class="username-text">
+                        {{ user.username }}
+                        <button type="button" id="edit-username-btn" class="edit-btn" aria-label="ユーザー名義を変更">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                            </svg>
+                        </button>
+                    </p>
+                    <div id="username-edit-form" class="username-edit-form" style="display: none;">
+                        <input type="text" id="username-input" value="{{ user.username }}" class="username-input">
+                        <div class="edit-actions">
+                            <button type="button" id="save-username-btn" class="save-btn">保存</button>
+                            <button type="button" id="cancel-username-btn" class="cancel-btn">キャンセル</button>
+                        </div>
+                        <p id="username-error" class="error-message"
+                            style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;"></p>
                     </div>
-                    <p id="username-error" class="error-message"
-                        style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;"></p>
                 </div>
-            </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const displayEl = document.getElementById('username-display');
-                    const formEl = document.getElementById('username-edit-form');
-                    const inputEl = document.getElementById('username-input');
-                    const editBtn = document.getElementById('edit-username-btn');
-                    const saveBtn = document.getElementById('save-username-btn');
-                    const cancelBtn = document.getElementById('cancel-username-btn');
-                    const errorEl = document.getElementById('username-error');
-
-                    const profileImageContainer = document.getElementById('profile-image-container');
-                    const profileImageInput = document.getElementById('profile-image-input');
-                    const profileImage = document.getElementById('profile-image');
-
-                    // --- Image Upload ---
-                    profileImageContainer.addEventListener('click', function () {
-                        profileImageInput.click();
-                    });
-
-                    profileImageInput.addEventListener('change', function (event) {
-                        const file = event.target.files[0];
-                        if (!file) return;
-
-                        // Check file type (Match signup.html mechanism)
-                        if (!file.type.startsWith('image/')) {
-                            alert('画像ファイルを選択してください');
-                            this.value = ''; // Clear the input value
-                            return;
-                        }
-
-                        // Preview image (Match signup.html mechanism)
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            profileImage.src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-
-                        // Upload image
-                        const formData = new FormData();
-                        formData.append('profile_image', file);
-
-                        uploadData(formData, function (data) {
-                            if (data.image_url) {
-                                // Ensure src is updated to server URL (though preview already showed it)
-                                profileImage.src = data.image_url;
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const displayEl = document.getElementById('username-display');
+                        const formEl = document.getElementById('username-edit-form');
+                        const inputEl = document.getElementById('username-input');
+                        const editBtn = document.getElementById('edit-username-btn');
+                        const saveBtn = document.getElementById('save-username-btn');
+                        const cancelBtn = document.getElementById('cancel-username-btn');
+                        const errorEl = document.getElementById('username-error');
+    
+                        const profileImageContainer = document.getElementById('profile-image-container');
+                        const profileImageInput = document.getElementById('profile-image-input');
+                        const profileImage = document.getElementById('profile-image');
+    
+                        // --- Image Upload ---
+                        profileImageContainer.addEventListener('click', function () {
+                            profileImageInput.click();
+                        });
+    
+                        profileImageInput.addEventListener('change', function (event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
+    
+                            // Check file type (Match signup.html mechanism)
+                            if (!file.type.startsWith('image/')) {
+                                alert('画像ファイルを選択してください');
+                                this.value = ''; // Clear the input value
+                                return;
                             }
-                        });
-                    });
-
-                    // --- Username Edit ---
-
-                    // Show edit form
-                    editBtn.addEventListener('click', function () {
-                        displayEl.style.display = 'none';
-                        formEl.style.display = 'block';
-                        inputEl.focus();
-                        errorEl.style.display = 'none';
-                    });
-
-                    // Hide edit form
-                    cancelBtn.addEventListener('click', function () {
-                        formEl.style.display = 'none';
-                        displayEl.style.display = 'flex'; // Changed to flex to keep icon aligned
-                        inputEl.value = displayEl.firstChild.textContent.trim(); // Reset input
-                    });
-
-                    // Save changes
-                    saveBtn.addEventListener('click', function () {
-                        const newUsername = inputEl.value.trim();
-                        if (!newUsername) {
-                            showError('ユーザー名を入力してください');
-                            return;
-                        }
-
-                        // Clear previous error
-                        errorEl.style.display = 'none';
-
-                        // Disable button to prevent double submit
-                        saveBtn.disabled = true;
-                        saveBtn.textContent = '保存中...';
-
-                        // Use FormData for consistency, though backend supports JSON too
-                        const formData = new FormData();
-                        formData.append('username', newUsername);
-
-                        uploadData(formData, function (data) {
-                            // Update display
-                            displayEl.firstChild.textContent = newUsername + ' ';
-                            // Also update alt text of profile image
-                            if (profileImage) profileImage.alt = newUsername;
-
-                            // Return to display mode
-                            formEl.style.display = 'none';
-                            displayEl.style.display = 'flex';
-                        }, function () {
-                            saveBtn.disabled = false;
-                            saveBtn.textContent = '保存';
-                        });
-                    });
-
-                    function uploadData(formData, onSuccess, onComplete) {
-                        fetch("{% url 'accounts:update_profile' %}", {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    onSuccess(data);
-                                } else {
-                                    showError(data.message || 'エラーが発生しました');
+    
+                            // Preview image (Match signup.html mechanism)
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                profileImage.src = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+    
+                            // Upload image
+                            const formData = new FormData();
+                            formData.append('profile_image', file);
+    
+                            uploadData(formData, function (data) {
+                                if (data.image_url) {
+                                    // Ensure src is updated to server URL (though preview already showed it)
+                                    profileImage.src = data.image_url;
                                 }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                showError('通信エラーが発生しました');
-                            })
-                            .finally(() => {
-                                if (onComplete) onComplete();
                             });
-                    }
-
-                    function showError(msg) {
-                        errorEl.textContent = msg;
-                        errorEl.style.display = 'block';
-                        // Ensure form is visible if it was a username error
-                        if (formEl.style.display === 'none' && msg !== '通信エラーが発生しました') {
-                            // If it's a global error (like image upload fail), maybe distinct handling is better?
-                            // But for now, simple alert or reusing the errorEl is okay.
-                            // Actually, errorEl is inside the name edit form.
-                            // If image upload fails, we should probably alert or have a dedicated error area.
-                            // For simplicity:
-                            if (formEl.style.display === 'none') {
-                                alert(msg);
+                        });
+    
+                        // --- Username Edit ---
+    
+                        // Show edit form
+                        editBtn.addEventListener('click', function () {
+                            displayEl.style.display = 'none';
+                            formEl.style.display = 'block';
+                            inputEl.focus();
+                            errorEl.style.display = 'none';
+                        });
+    
+                        // Hide edit form
+                        cancelBtn.addEventListener('click', function () {
+                            formEl.style.display = 'none';
+                            displayEl.style.display = 'flex'; // Changed to flex to keep icon aligned
+                            inputEl.value = displayEl.firstChild.textContent.trim(); // Reset input
+                        });
+    
+                        // Save changes
+                        saveBtn.addEventListener('click', function () {
+                            const newUsername = inputEl.value.trim();
+                            if (!newUsername) {
+                                showError('ユーザー名を入力してください');
+                                return;
+                            }
+    
+                            // Clear previous error
+                            errorEl.style.display = 'none';
+    
+                            // Disable button to prevent double submit
+                            saveBtn.disabled = true;
+                            saveBtn.textContent = '保存中...';
+    
+                            // Use FormData for consistency, though backend supports JSON too
+                            const formData = new FormData();
+                            formData.append('username', newUsername);
+    
+                            uploadData(formData, function (data) {
+                                // Update display
+                                displayEl.firstChild.textContent = newUsername + ' ';
+                                // Also update alt text of profile image
+                                if (profileImage) profileImage.alt = newUsername;
+    
+                                // Return to display mode
+                                formEl.style.display = 'none';
+                                displayEl.style.display = 'flex';
+                            }, function () {
+                                saveBtn.disabled = false;
+                                saveBtn.textContent = '保存';
+                            });
+                        });
+    
+                        function uploadData(formData, onSuccess, onComplete) {
+                            fetch("{% url 'accounts:update_profile' %}", {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                },
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        onSuccess(data);
+                                    } else {
+                                        showError(data.message || 'エラーが発生しました');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    showError('通信エラーが発生しました');
+                                })
+                                .finally(() => {
+                                    if (onComplete) onComplete();
+                                });
+                        }
+    
+                        function showError(msg) {
+                            errorEl.textContent = msg;
+                            errorEl.style.display = 'block';
+                            // Ensure form is visible if it was a username error
+                            if (formEl.style.display === 'none' && msg !== '通信エラーが発生しました') {
+                                // If it's a global error (like image upload fail), maybe distinct handling is better?
+                                // But for now, simple alert or reusing the errorEl is okay.
+                                // Actually, errorEl is inside the name edit form.
+                                // If image upload fails, we should probably alert or have a dedicated error area.
+                                // For simplicity:
+                                if (formEl.style.display === 'none') {
+                                    alert(msg);
+                                }
                             }
                         }
-                    }
-                });
-            </script>
-            <!-- <p>{{ user_profile.email }}</p> -->
-            <p>{{ user_profile.date_joined }}</p>
+                    });
+                </script>
+                <!-- <p>{{ user_profile.email }}</p> -->
+                <p>{{ user_profile.date_joined }}</p>
+            </div>
         </div>
         <div class="workouts-section">
             {% for exercise_record in exercise_records %}
@@ -201,12 +201,9 @@
             </div>
             {% endfor %}
         </div>
-        <!-- ダミー -->
-        <div></div>
     </div>
     <div class="profile-row">
         <!-- ダミー -->
-        <div></div>
         <div></div>
         <div class="graph-container">
             <h2 class="graph-title">週間運動時間</h2>
@@ -238,8 +235,6 @@
                 </div>
             </div>
         </div>
-        <!-- ダミー -->
-        <div></div>
     </div>
 </div>
 {% endblock content %}

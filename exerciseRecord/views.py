@@ -104,8 +104,13 @@ def post_exercise(request, pk):
 
 
 @login_required
-def remove_exercise():
-    return
+def remove_exercise(request, pk):
+    record = get_object_or_404(ExerciseRecord, pk=pk, user=request.user)
+
+    if request.method == "POST":
+        record.delete()
+        messages.success(request, "記録を削除しました。")
+        return redirect("index")
 
 @login_required
 def index_view(request):

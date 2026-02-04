@@ -29,6 +29,7 @@
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-primary);
+    padding: 0 24px;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -60,6 +61,7 @@
 }
 
 .auth {
+    display: flex;
     font-size: 14px;
     color: var(--text-secondary);
     text-align: right;

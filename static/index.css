@@ -11,7 +11,8 @@
 .profile-row {
     width: 100%;
     display: grid;
-    grid-template-columns: 0.1fr 500px 1fr 0.1fr;
+    padding: 0 10%;
+    grid-template-columns: 500px 1fr;
     min-height: fit-content;
     height: fit-content;
     overflow: hidden;
@@ -47,10 +48,15 @@
     opacity: 0.8;
 }
 
-.username-container {
+.userdetail-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    height: fit-content;
+}
+
+.username-container {
+    display: flex;
     width: 100%;
 }
 
@@ -58,7 +64,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    justify-content: center;
     margin: 0;
     margin-bottom: 5px;
     font-weight: bold;
@@ -252,7 +257,7 @@
 @media (max-width: 768px) {
     .profile {
         width: 100%;
-        aspect-ratio: 1 / 1;
+        height: fit-content;
         padding: 20px;
         flex-direction: row;
     }
@@ -260,16 +265,13 @@
         width: 200px;
         height: 200px;
     }
-    .username-container {
+    .userdetail-container {
         flex-grow: 1;
         width: auto;
     }
-    .profile-top-row {
+    .profile-row {
         grid-template-columns: 1fr;
-        grid-template-rows: 0fr 1fr 1fr 0fr;
-    }
-    .profile-bottom-row {
-        grid-template-columns: 1fr;
-        grid-template-rows: 0fr 1fr 1fr 0fr;
+        padding: 10% 0;
+        grid-template-rows: auto 1fr;
     }
 }

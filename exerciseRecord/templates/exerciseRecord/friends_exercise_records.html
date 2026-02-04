@@ -22,16 +22,9 @@
                 <h2 class="workout-type">{{ exercise_record.exercise_type|default:"その他" }}</h2>
                 <div class="workout-stats">
                     <div class="stat-item">
-                        <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
                         <span class="stat-value">{{ exercise_record.duration_minutes }}分</span>
                     </div>
                     <div class="stat-item">
-                        <svg class="stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                        </svg>
                         <span class="stat-value">{{ exercise_record.exercise_start_time }} 開始</span>
                     </div>
                 </div>
