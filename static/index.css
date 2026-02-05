@@ -136,12 +136,13 @@
 }
 
 .graph-container {
-    width: 100%;
+    width: calc(100% - 40px);
     margin: 0 auto;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 30px;
+    margin: 20px;
 }
 
 .graph-title {
