@@ -11,6 +11,14 @@
     <div class="workout-data-section">
         <div class="workout-type-card">
             <div class="workout-type-name" id="exercise-type-input">種目を選ぶ</div>
+            <div class="down-up-container">
+                <div class="down-up-button" id="open">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path></svg>
+                </div>
+                <div class="down-up-button" id="close">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"></path></svg>
+                </div>
+            </div>
             <div class="select-inner-container" id="select-inner-container">
             </div>
             <div class="time-info">
@@ -62,6 +70,9 @@
                 document.getElementById("exercises-data").textContent
             );
             const value = document.getElementById("exercise-type-input-value");
+            const open = document.getElementById("open");
+            const close = document.getElementById("close");
+            close.classList.add("hidden");
             const select = document.getElementById("exercise-type-input");
             const selectInnerContainer = document.getElementById("select-inner-container");
 
@@ -111,20 +122,17 @@
                 }
             }
 
-            select.addEventListener("click", (e) => {
+            open.addEventListener("click", (e) => {
                 e.stopPropagation();
-                // const rect = select.getBoundingClientRect();
-                // selectInnerContainer.style.top = `${rect.bottom}px`;
-                // selectInnerContainer.style.left = `${(rect.left + rect.right) / 2}px`;
+                open.classList.add("hidden");
+                close.classList.remove("hidden");
                 updateInner();
                 selectInnerContainer.classList.add("open");
-                const hidden = (e) => {
-                    if (!selectInnerContainer.contains(e.target)) {
-                        selectInnerContainer.classList.remove("open");
-                        document.removeEventListener("click", hidden);
-                    }
-                }
-                document.addEventListener("click", hidden)
+                close.addEventListener("click", (e) => {
+                    selectInnerContainer.classList.remove("open");
+                    open.classList.remove("hidden");
+                    close.classList.add("hidden");
+                })
             })
         })
     </script>

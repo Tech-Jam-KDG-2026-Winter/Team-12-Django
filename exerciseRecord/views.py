@@ -181,7 +181,7 @@ def index_view(request):
 @login_required
 def friends_execise_records(request):
     """
-    フレンドの運動記録を取得（24時間以内）
+    フレンドの運動記録を取得（24 * 7時間以内）
     """
 
     # フレンド一覧を取得
@@ -197,7 +197,7 @@ def friends_execise_records(request):
             friend_ids.append(friendship.user1.id)
 
     # 24時間前
-    since = timezone.now() - timedelta(hours=24)
+    since = timezone.now() - timedelta(hours=24 * 7)
 
     # フレンドの運動記録を取得（24時間以内）
     friends_exercise_records = ExerciseRecord.objects.filter(

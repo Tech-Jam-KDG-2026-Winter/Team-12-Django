@@ -4,7 +4,7 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     overflow-y: auto;
 }
 .workout-data-section {
@@ -216,6 +216,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.down-up-container {
+    width: 100%;
+    height: 20px;
+}
+
+.down-up-button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
 }
 
 @media (min-width: 768px) {
