@@ -33,7 +33,8 @@
                             <button type="button" id="cancel-username-btn" class="cancel-btn">キャンセル</button>
                         </div>
                         <p id="username-error" class="error-message"
-                            style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;"></p>
+                            style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;">
+                        </p>
                     </div>
                 </div>
 
@@ -46,38 +47,38 @@
                         const saveBtn = document.getElementById('save-username-btn');
                         const cancelBtn = document.getElementById('cancel-username-btn');
                         const errorEl = document.getElementById('username-error');
-    
+
                         const profileImageContainer = document.getElementById('profile-image-container');
                         const profileImageInput = document.getElementById('profile-image-input');
                         const profileImage = document.getElementById('profile-image');
-    
+
                         // --- Image Upload ---
                         profileImageContainer.addEventListener('click', function () {
                             profileImageInput.click();
                         });
-    
+
                         profileImageInput.addEventListener('change', function (event) {
                             const file = event.target.files[0];
                             if (!file) return;
-    
+
                             // Check file type (Match signup.html mechanism)
                             if (!file.type.startsWith('image/')) {
                                 alert('画像ファイルを選択してください');
                                 this.value = ''; // Clear the input value
                                 return;
                             }
-    
+
                             // Preview image (Match signup.html mechanism)
                             const reader = new FileReader();
                             reader.onload = function (e) {
                                 profileImage.src = e.target.result;
                             };
                             reader.readAsDataURL(file);
-    
+
                             // Upload image
                             const formData = new FormData();
                             formData.append('profile_image', file);
-    
+
                             uploadData(formData, function (data) {
                                 if (data.image_url) {
                                     // Ensure src is updated to server URL (though preview already showed it)
@@ -85,9 +86,9 @@
                                 }
                             });
                         });
-    
+
                         // --- Username Edit ---
-    
+
                         // Show edit form
                         editBtn.addEventListener('click', function () {
                             displayEl.style.display = 'none';
@@ -95,14 +96,14 @@
                             inputEl.focus();
                             errorEl.style.display = 'none';
                         });
-    
+
                         // Hide edit form
                         cancelBtn.addEventListener('click', function () {
                             formEl.style.display = 'none';
                             displayEl.style.display = 'flex'; // Changed to flex to keep icon aligned
                             inputEl.value = displayEl.firstChild.textContent.trim(); // Reset input
                         });
-    
+
                         // Save changes
                         saveBtn.addEventListener('click', function () {
                             const newUsername = inputEl.value.trim();
@@ -110,24 +111,24 @@
                                 showError('ユーザー名を入力してください');
                                 return;
                             }
-    
+
                             // Clear previous error
                             errorEl.style.display = 'none';
-    
+
                             // Disable button to prevent double submit
                             saveBtn.disabled = true;
                             saveBtn.textContent = '保存中...';
-    
+
                             // Use FormData for consistency, though backend supports JSON too
                             const formData = new FormData();
                             formData.append('username', newUsername);
-    
+
                             uploadData(formData, function (data) {
                                 // Update display
                                 displayEl.firstChild.textContent = newUsername + ' ';
                                 // Also update alt text of profile image
                                 if (profileImage) profileImage.alt = newUsername;
-    
+
                                 // Return to display mode
                                 formEl.style.display = 'none';
                                 displayEl.style.display = 'flex';
@@ -136,7 +137,7 @@
                                 saveBtn.textContent = '保存';
                             });
                         });
-    
+
                         function uploadData(formData, onSuccess, onComplete) {
                             fetch("{% url 'accounts:update_profile' %}", {
                                 method: 'POST',
@@ -161,7 +162,7 @@
                                     if (onComplete) onComplete();
                                 });
                         }
-    
+
                         function showError(msg) {
                             errorEl.textContent = msg;
                             errorEl.style.display = 'block';
@@ -186,18 +187,20 @@
         <div class="workouts-section">
             {% for exercise_record in exercise_records %}
             <div class="workout-card">
-                <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
                 <div class="workout-info">
                     <div class="workout-name">{{ exercise_record.exercise_type|default:"その他" }}</div>
                     <div class="workout-details">{{ exercise_record.diary }}</div>
                 </div>
-                <div class="workout-time">{{ exercise_record.duration_minutes }}分</div>
+                <div class="workout-time-group">
+                    {% if exercise_record.reps %}
+                    <div class="workout-reps">{{ exercise_record.reps }}回</div>
+                    {% endif %}
+                    <div class="workout-time">{{ exercise_record.duration_minutes }}分</div>
+                </div>
                 <form method="post" action="{% url 'remove_exercise' exercise_record.id %}" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="red-button workout-time">削除</button>
                 </form>
-                <!-- <div class="workout-time">{{ exercise_record.exercise_end_time }}</div> -->
-                <!-- <div class="workout-time">{{ exercise_record.exercise_start_time }}</div> -->
             </div>
             {% endfor %}
         </div>

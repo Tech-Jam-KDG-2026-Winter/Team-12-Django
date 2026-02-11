@@ -11,7 +11,7 @@ class ExerciseRecord(models.Model):
     for category_key, category_data in EXERCISES.items():
         category_name = category_data['name']
         exercises = category_data['exercises']
-        exercise_options = [(exercise, exercise) for exercise in exercises]
+        exercise_options = [(ex['name'], ex['name']) for ex in exercises]
         EXERCISE_CHOICES.append((category_name, exercise_options))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,6 +19,7 @@ class ExerciseRecord(models.Model):
     exercise_end_time = models.DateTimeField()
     duration_minutes = models.IntegerField()
     exercise_type = models.CharField(max_length=100, choices=EXERCISE_CHOICES, blank=True, null=True)
+    reps = models.PositiveIntegerField(blank=True, null=True, verbose_name='回数')
     diary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

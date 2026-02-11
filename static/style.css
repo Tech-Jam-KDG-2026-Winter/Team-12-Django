@@ -142,14 +142,21 @@ body {
     border: 1px solid var(--border-color);
     backdrop-filter: blur(20px);
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
-    gap: 16px;
+    gap: 8px 16px;
     transition: transform 0.2s ease;
 }
 
 .workout-card:active {
     transform: scale(0.98);
+}
+
+.workout-time-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
 }
 
 .workout-icon {
@@ -164,20 +171,23 @@ body {
 }
 
 .workout-info {
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* 省略記号(...)を表示 */
+    min-width: 0;
 }
 
 .workout-name {
     font-size: 17px;
     font-weight: 500;
     margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .workout-details {
     font-size: 14px;
     color: var(--text-secondary);
+    word-break: break-word;
 }
 
 .workout-time {
@@ -186,6 +196,7 @@ body {
     text-align: right;
     padding: 6px 12px;
     border: 1px solid #ffffff00;
+    white-space: nowrap;
 }
 
 .workout-time+button {

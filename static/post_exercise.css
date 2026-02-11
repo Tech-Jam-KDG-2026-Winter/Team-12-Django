@@ -235,6 +235,48 @@
     }
 }
 
+/* 回数入力セクション */
+.reps-section {
+    animation: fadeInUp 0.6s ease-out 0.15s;
+    animation-fill-mode: both;
+}
+
+.reps-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.reps-input-field {
+    width: 120px;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(146, 232, 42, 0.5);
+    color: var(--text-primary);
+    outline: none;
+    padding: 4px 8px;
+    -moz-appearance: textfield;
+}
+
+.reps-input-field::-webkit-outer-spin-button,
+.reps-input-field::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.reps-input-field:focus {
+    border-bottom-color: var(--accent-exercise);
+}
+
+.reps-input-field::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
 /* アニメーション */
 @keyframes fadeInUp {
     from {

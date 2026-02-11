@@ -5,7 +5,7 @@ from .models import ExerciseRecord
 
 @admin.register(ExerciseRecord)
 class ExerciseRecordAdmin(admin.ModelAdmin):
-    list_display = ['user', 'exercise_type', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
+    list_display = ['user', 'exercise_type', 'reps', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
     list_filter = ['exercise_type', 'created_at']
     search_fields = ['user__username', 'exercise_type', 'diary']
     ordering = ['-created_at']
@@ -15,7 +15,7 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('運動情報', {
-            'fields': ('exercise_type', 'exercise_start_time', 'exercise_end_time')
+            'fields': ('exercise_type', 'reps', 'exercise_start_time', 'exercise_end_time')
         }),
         ('感想', {
             'fields': ('diary',),

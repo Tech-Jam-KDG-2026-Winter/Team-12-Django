@@ -41,6 +41,17 @@
             </div>
         </div>
 
+        <!-- 回数入力セクション（回数系種目選択時のみ表示） -->
+        <div class="reps-section" id="reps-section" style="display: none;">
+            <div class="duration-card">
+                <div class="duration-label">回数</div>
+                <div class="reps-input-container">
+                    <input type="number" id="reps-input" name="reps_display" min="1" placeholder="0" class="reps-input-field">
+                    <span class="duration-unit">回</span>
+                </div>
+            </div>
+        </div>
+
         <div class="notes-section">
 
             <h3 class="section-title">感想を入力</h3>
@@ -48,6 +59,7 @@
                 <form method="post">
                     {% csrf_token %}
                     <input type="hidden" name="exercise_type" id="exercise-type-input-value" value="その他">
+                    <input type="hidden" name="reps" id="reps-hidden-value" value="">
                     <textarea
                         id="notesInput"
                         class="notes-input"
@@ -75,6 +87,39 @@
             close.classList.add("hidden");
             const select = document.getElementById("exercise-type-input");
             const selectInnerContainer = document.getElementById("select-inner-container");
+
+            // 回数関連の要素
+            const repsSection = document.getElementById("reps-section");
+            const repsInput = document.getElementById("reps-input");
+            const repsHiddenValue = document.getElementById("reps-hidden-value");
+
+            // 回数入力の値をhiddenフィールドに同期
+            repsInput.addEventListener("input", () => {
+                repsHiddenValue.value = repsInput.value;
+            });
+
+            // 種目名からタイプ（reps/time）を取得するヘルパー関数
+            function getExerciseType(exerciseName) {
+                for (const key in EXERCISES) {
+                    for (const ex of EXERCISES[key].exercises) {
+                        if (ex.name === exerciseName) {
+                            return ex.type;
+                        }
+                    }
+                }
+                return "time"; // デフォルトは時間系
+            }
+
+            // 回数セクションの表示/非表示を更新
+            function updateRepsVisibility(exerciseType) {
+                if (exerciseType === "reps") {
+                    repsSection.style.display = "block";
+                } else {
+                    repsSection.style.display = "none";
+                    repsInput.value = "";
+                    repsHiddenValue.value = "";
+                }
+            }
 
             const selectInnerContainerHeader = document.createElement("div");
             selectInnerContainerHeader.classList.add("header");
@@ -111,10 +156,12 @@
                         EXERCISES[exercisesKey].exercises.forEach(ex => {
                             const exercise = document.createElement("div");
                             exercise.classList.add("exercise");
-                            exercise.textContent = ex;
+                            exercise.textContent = ex.name;
                             exercise.addEventListener("click", () => {
-                                select.textContent = ex;
-                                value.value = ex;
+                                select.textContent = ex.name;
+                                value.value = ex.name;
+                                // 種目タイプに応じて回数入力欄の表示を切り替え
+                                updateRepsVisibility(ex.type);
                             })
                             selectInnerContainerMain.appendChild(exercise);
                         });
