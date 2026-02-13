@@ -5,9 +5,9 @@ from .models import ExerciseRecord
 
 @admin.register(ExerciseRecord)
 class ExerciseRecordAdmin(admin.ModelAdmin):
-    list_display = ['user', 'exercise_type', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
-    list_filter = ['exercise_type', 'created_at']
-    search_fields = ['user__username', 'exercise_type', 'diary']
+    list_display = ['user', 'exercise_types_display', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
+    list_filter = ['created_at', 'user']
+    search_fields = ['user__username', 'diary']
     ordering = ['-created_at']
 
     fieldsets = (
@@ -15,7 +15,7 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('運動情報', {
-            'fields': ('exercise_type', 'exercise_start_time', 'exercise_end_time')
+            'fields': ('exercise_types', 'exercise_start_time', 'exercise_end_time')
         }),
         ('感想', {
             'fields': ('diary',),
@@ -42,3 +42,8 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
         return obj.duration_display
 
     duration_display.short_description = '運動時間'
+
+    def exercise_types_display(self, obj):
+        """一覧画面で運動種目を表示"""
+        return obj.exercise_types_display
+    exercise_types_display.short_description = '運動種目'

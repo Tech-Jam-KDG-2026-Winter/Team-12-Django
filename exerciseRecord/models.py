@@ -4,27 +4,73 @@ from accounts.models import User
 
 from .consts import EXERCISES
 
-class ExerciseRecord(models.Model):
-    # EXERCISES定数からchoicesを作成
-    # 形式: [('カテゴリー名', [('種目名', '種目名'), ...]), ...]
-    EXERCISE_CHOICES = []
-    for category_key, category_data in EXERCISES.items():
-        category_name = category_data['name']
-        exercises = category_data['exercises']
-        exercise_options = [(exercise, exercise) for exercise in exercises]
-        EXERCISE_CHOICES.append((category_name, exercise_options))
+# class Exercise(models.Model):
+#     name = models.CharField('種目名', max_length=100, unique=True)
+#     category = models.CharField('カテゴリー', max_length=100)
+    
+#     class Meta:
+#         db_table = 'exercise_types'
+#         verbose_name = '運動種目'
+#         verbose_name_plural = '運動種目'
+#         ordering = ['category', 'name']
+    
+#     def __str__(self):
+#         return f"{self.category} - {self.name}"
 
+class ExerciseRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise_start_time = models.DateTimeField()
     exercise_end_time = models.DateTimeField()
     duration_minutes = models.IntegerField()
-    exercise_type = models.CharField(max_length=100, choices=EXERCISE_CHOICES, blank=True, null=True)
+    # exercise_types = models.ManyToManyField(
+    #     Exercise,
+    #     verbose_name='運動種目',
+    #     related_name='exercise_records',
+    #     blank=True
+    # )
+    # 複数選択できるように、リストで保存
+    exercise_types = models.JSONField(
+        default=list,
+        blank=True
+    )
     diary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'exercise_records'
+        verbose_name = '運動記録'
+        verbose_name_plural = '運動記録'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.user.username} - {self.created_at}"
 
+    # consts.pyから選択肢を取得
+    @classmethod
+    def get_exercise_choices(cls):
+        """フォームで使う選択肢を生成"""
+        choices = []
+        for category_key, category_data in EXERCISES.items():
+            for exercise in category_data['exercises']:
+                choices.append((exercise, exercise))
+        return choices
+
+    @classmethod
+    def get_exercise_choices_by_category(cls):
+        """カテゴリー別の運動種目選択肢を取得"""
+        choices_by_category = {}
+        for category_key, category_data in EXERCISES.items():
+            category_name = category_data['name']
+            choices_by_category[category_name] = category_data['exercises']
+        return choices_by_category
+
+    @property
+    def exercise_types_display(self):
+        """選択された運動種目を文字列で返す"""
+        if isinstance(self.exercise_types, list) and self.exercise_types:
+            return ", ".join(self.exercise_types)
+        return "その他"
+    
     @property
     def duration_display(self):
         if self.exercise_start_time and self.exercise_end_time:
