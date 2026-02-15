@@ -2,12 +2,27 @@ from django import forms
 from .models import ExerciseRecord
 
 class ExerciseRecordForm(forms.ModelForm):
-    exercise_type = forms.ChoiceField(choices=ExerciseRecord.EXERCISE_CHOICES, required=True, label='種目', widget=forms.Select(attrs={'class': 'form-control'}))
-    reps = forms.IntegerField(required=False, label='回数', min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '回数を入力'}))
+    # 複数選択できるフィールド
+    exercise_types = forms.MultipleChoiceField(
+        label='運動種目',
+        choices=[],
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    # 回数フィールド
+    reps = forms.IntegerField(
+        required=False,
+        label='回数',
+        min_value=1,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': '回数を入力'
+        })
+    )
 
     class Meta:
         model = ExerciseRecord
-        fields = ('exercise_type', 'reps', 'diary',)
+        fields = ('exercise_types', 'reps', 'diary',)
         labels = {
             'diary': '運動記録',
         }
@@ -18,3 +33,21 @@ class ExerciseRecordForm(forms.ModelForm):
                 'placeholder': '運動の内容や感想を記入してください'
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # consts.pyから選択肢を取得
+        self.fields['exercise_types'].choices = ExerciseRecord.get_exercise_choices()
+        
+        # 既存のレコードを編集する場合、選択済みの値を設定
+        if self.instance and self.instance.pk:
+            if isinstance(self.instance.exercise_types, list):
+                self.initial['exercise_types'] = self.instance.exercise_types
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # 選択された運動種目をリストとして保存
+        instance.exercise_types = self.cleaned_data.get('exercise_types', [])
+        if commit:
+            instance.save()
+        return instance

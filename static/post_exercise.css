@@ -7,6 +7,7 @@
     /* align-items: center; */
     overflow-y: auto;
 }
+
 .workout-data-section {
     width: 80%;
     max-width: 800px;
@@ -41,6 +42,7 @@
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 8px;
+    cursor: pointer;
 }
 
 .workout-category {
@@ -172,6 +174,7 @@
     border-radius: 14px;
     transition: max-height 0.3s ease;
 }
+
 .select-inner-container.open {
     max-height: 400px !important;
 }
@@ -184,6 +187,7 @@
     gap: 5px;
     padding: 5px;
 }
+
 .select-inner-container .header .tab {
     width: fit-content;
     height: 30px;
@@ -193,7 +197,9 @@
     padding: 3px;
     border: 1px solid var(--border-color);
     white-space: nowrap;
+    cursor: pointer;
 }
+
 .select-inner-container .main {
     overflow-y: auto;
     width: 100%;
@@ -216,17 +222,47 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.down-up-container {
-    width: 100%;
-    height: 20px;
+.select-inner-container .main .exercise.selected {
+    background: linear-gradient(135deg, rgba(146, 232, 42, 0.3), rgba(180, 255, 0, 0.2));
+    border-color: var(--accent-exercise);
+    font-weight: 600;
 }
 
-.down-up-button {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
+/* 選択済み種目タグ */
+.selected-exercises {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.selected-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: linear-gradient(135deg, rgba(146, 232, 42, 0.2), rgba(180, 255, 0, 0.15));
+    border: 1px solid rgba(146, 232, 42, 0.4);
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.selected-tag-remove {
+    cursor: pointer;
+    font-size: 11px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    margin-left: 2px;
+}
+
+.selected-tag-remove:hover {
+    opacity: 1;
 }
 
 @media (min-width: 768px) {
@@ -260,6 +296,7 @@
     outline: none;
     padding: 4px 8px;
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .reps-input-field::-webkit-outer-spin-button,
@@ -283,6 +320,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

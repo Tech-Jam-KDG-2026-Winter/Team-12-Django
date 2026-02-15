@@ -188,7 +188,7 @@
             {% for exercise_record in exercise_records %}
             <div class="workout-card">
                 <div class="workout-info">
-                    <div class="workout-name">{{ exercise_record.exercise_type|default:"その他" }}</div>
+                    <div class="workout-name">{{ exercise_record.exercise_types_display }}</div>
                     <div class="workout-details">{{ exercise_record.diary }}</div>
                 </div>
                 <div class="workout-time-group">

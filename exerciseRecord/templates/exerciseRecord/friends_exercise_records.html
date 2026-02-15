@@ -19,7 +19,7 @@
             </div>
 
             <div class="post-content">
-                <h2 class="workout-type">{{ exercise_record.exercise_type|default:"その他" }}</h2>
+                <h2 class="workout-type">{{ exercise_record.exercise_types_display }}</h2>
                 <div class="workout-stats">
                     <div class="stat-item">
                         <span class="stat-value">{{ exercise_record.duration_minutes }}分</span>
