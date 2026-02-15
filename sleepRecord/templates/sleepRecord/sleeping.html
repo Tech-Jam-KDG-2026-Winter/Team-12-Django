@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'exercising.css' %}">
+{% endblock %}
+{% block title %}睡眠計測{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="inner-container">
+    {% if is_sleeping %}
+        <div>
+            <p class="text-big-1">開始時刻: {{ start_time|date:"H:i" }}</p>
+            <div id="elapsed-time" class="text-big">00:00:00</div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="end">
+            <button class="button-big green-button" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                起床
+            </button>
+        </form>
+
+        <script>
+            // 経過時間タイマー
+            function updateTimer() {
+                const startTime = new Date("{{ start_time|date:'Y-m-d H:i:s' }}");
+                const now = new Date();
+                const diff = Math.floor((now - startTime) / 1000);
+
+                if (diff < 0) return;
+
+                const hours = Math.floor(diff / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+                const seconds = (diff % 60).toString().padStart(2, '0');
+
+                document.getElementById('elapsed-time').textContent = `${hours}:${minutes}:${seconds}`;
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        </script>
+    {% else %}
+            <h1>睡眠を始めましょう！</h1>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="start">
+                <button class="button-big green-button" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                    就寝
+                </button>
+            </form>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

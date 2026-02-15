@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'friend',
     'exerciseRecord',
+    'sleepRecord',
 ]
 
 MIDDLEWARE = [

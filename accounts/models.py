@@ -18,5 +18,11 @@ class User(AbstractUser):
         default='profile_images/default_profile.png'  # デフォルト画像
     )
 
+    last_sleep_time = models.DateTimeField(
+        null=True, 
+        blank=True, 
+        verbose_name="最終睡眠開始時刻"
+    )
+
     def __str__(self):
         return self.username

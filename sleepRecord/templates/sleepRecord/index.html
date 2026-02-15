@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
+{% block title %}睡眠管理{% endblock %}
+{% block h1 %}睡眠管理{% endblock %}
+{% block content %}
+<div class="container">
+    <!-- 開発用 -->
+    <a class="nav-item" href="{% url 'sleepRecord:sleeping' %}"><p>睡眠記録</p></a>
+    <a class="nav-item" href="{% url 'sleepRecord:friends_sleep_records' %}"><p>フレンド睡眠記録</p></a>
+
+
+    <div class="profile-row">
+        <div class="profile">
+            <div class="profile-image-container">
+                <img src="{{ user.profile_image.url }}" alt="{{ user.username }}">
+            </div>
+            <div class="userdetail-container">
+                <p class="username-text">{{ user.username }}</p>
+                <p>{{ user_profile.date_joined }}</p>
+            </div>
+        </div>
+        <div class="workouts-section">
+            {% for sleep_record in sleep_records|slice:":20" %}
+            <div class="workout-card">
+                <div class="workout-info">
+                    <div class="workout-name">睡眠</div>
+                    <div class="workout-details">
+                        {{ sleep_record.sleep_start_time|date:"m/d H:i" }} - {{ sleep_record.sleep_end_time|date:"H:i" }}
+                    </div>
+                    <div class="workout-details">{{ sleep_record.diary }}</div>
+                </div>
+                <div class="workout-time">{{ sleep_record.duration_minutes }}分</div>
+                <form method="post" action="{% url 'sleepRecord:remove_sleep' sleep_record.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="red-button workout-time">削除</button>
+                </form>
+            </div>
+            {% empty %}
+            <p>まだ睡眠記録がありません</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="profile-row">
+        <!-- ダミー -->
+        <div></div>
+        <div class="graph-container">
+            <h2 class="graph-title">週間睡眠時間</h2>
+            <p class="graph-subtitle">直近7日間の睡眠記録</p>
+            <div class="chart">
+                {% for weekly_record in weekly_records.records %}
+                <div class="bar-wrapper">
+                    <div class="bar" style="height: {{ weekly_record.height }}%;">
+                        <span class="bar-value">{{ weekly_record.time }}</span>
+                    </div>
+                    <div class="bar-label">{{ weekly_record.day_of_the_week }}</div>
+                    <div class="bar-date">{{ weekly_record.date }}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">{{ weekly_records.total_time }}</div>
+                    <div class="stat-label">週間合計</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ weekly_records.average_time }}</div>
+                    <div class="stat-label">1日平均</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ weekly_records.max_time }}</div>
+                    <div class="stat-label">最長記録</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

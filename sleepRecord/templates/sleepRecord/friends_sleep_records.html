@@ -1,0 +1,44 @@
+{% extends "base.html"%}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'friends_exercise_records.css' %}">
+{% endblock %}
+{% block title %}フレンドの睡眠記録{% endblock %}
+{% block h1 %}フレンドの睡眠記録{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="workout-feed">
+        {% for sleep_record in sleep_records %}
+        <article class="workout-post">
+            <div class="post-header">
+                <img class="avatar" src="{{ sleep_record.user.profile_image.url }}" alt="">
+                <div class="user-details">
+                    <div class="username">{{ sleep_record.user.username }}</div>
+                    <div class="post-time">{{ sleep_record.sleep_end_time }} 起床</div>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <h2 class="workout-type">睡眠</h2>
+                <div class="workout-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">{{ sleep_record.duration_minutes }}分</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ sleep_record.sleep_start_time }} 就寝</span>
+                    </div>
+                </div>
+
+                {% if sleep_record.diary %}
+                <div class="workout-note">
+                    {{ sleep_record.diary }}
+                </div>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <p>フレンドの睡眠記録がまだありません</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
