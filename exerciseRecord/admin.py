@@ -15,7 +15,7 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('運動情報', {
-            'fields': ('exercise_types', 'reps', 'exercise_start_time', 'exercise_end_time')
+            'fields': ('exercise_types', 'refs' 'exercise_start_time', 'exercise_end_time')
         }),
         ('感想', {
             'fields': ('diary',),

@@ -10,6 +10,7 @@ class ExerciseRecord(models.Model):
     exercise_start_time = models.DateTimeField()
     exercise_end_time = models.DateTimeField()
     duration_minutes = models.IntegerField()
+
     # 複数選択できるように、リストで保存
     exercise_types = models.JSONField(
         default=list,
