@@ -37,6 +37,32 @@
                     </div>
                 </div>
 
+                <!-- Social Media Links -->
+                <div class="social-media-links" style="margin-top: 10px;">
+                    {% if user.twitter_url %}
+                    <a href="{{ user.twitter_url }}" target="_blank" rel="noopener noreferrer" title="X (Twitter)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-3.010-3.010h-16.977a3.016 3.016 0 0 0-3.01 3.01v10.628a3.016 3.016 0 0 0 3.01 3.01h16.977a3.016 3.016 0 0 0 3.01-3.01V6.186z" fill="none"/><path d="M23 6a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6z"/>
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" font-weight="bold" fill="white" transform="translate(0, -1)">X</text>
+                        </svg>
+                    </a>
+                    {% endif %}
+                    {% if user.instagram_url %}
+                    <a href="{{ user.instagram_url }}" target="_blank" rel="noopener noreferrer" title="Instagram" style="margin-left: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Edit Profile Link -->
+                <a href="{% url 'accounts:profile_edit' %}" class="btn btn-sm btn-primary" style="margin-top: 15px;">
+                    プロフィール編集
+                </a>
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         const displayEl = document.getElementById('username-display');

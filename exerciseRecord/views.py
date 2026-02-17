@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from exerciseRecord.forms import ExerciseRecordForm
+from exerciseRecord.forms import ExerciseRecordForm, FeedbackHistoryForm
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db.models import Sum
@@ -9,7 +9,7 @@ from django.db.models.functions import TruncDate
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from .models import ExerciseRecord
+from .models import ExerciseRecord, FeedbackHistory
 from friend.models import Friend
 from .consts import ITEM_PER_PAGE
 from django.db.models import Q
@@ -100,6 +100,81 @@ def post_exercise(request, pk):
         'form': form,
         'record': record,
         "exercises_json": EXERCISES,
+    })
+
+
+@login_required
+def save_feedback(request, pk):
+    """
+    運動の感想を保存するビュー
+    POST: 感想を保存し、感想履歴ページへリダイレクト
+    """
+    record = get_object_or_404(ExerciseRecord, pk=pk, user=request.user)
+    
+    if request.method == 'POST':
+        form = FeedbackHistoryForm(request.POST)
+        if form.is_valid():
+            # 既存の感想がある場合は削除（OneToOneフィールドのため）
+            if hasattr(record, 'feedback_history'):
+                record.feedback_history.delete()
+            
+            # 新しい感想を保存
+            feedback = form.save(commit=False)
+            feedback.exercise_record = record
+            feedback.save()
+            
+            messages.success(request, '感想を保存しました。')
+            return redirect('feedback_history', pk=pk)
+    else:
+        # GET: 既存の感想があればそれを初期値として設定
+        if hasattr(record, 'feedback_history'):
+            form = FeedbackHistoryForm(instance=record.feedback_history)
+        else:
+            form = FeedbackHistoryForm()
+    
+    return render(request, 'exerciseRecord/save_feedback.html', {
+        'form': form,
+        'record': record,
+    })
+
+
+@login_required
+def feedback_history(request, pk):
+    """
+    特定の運動記録の感想を表示
+    """
+    record = get_object_or_404(ExerciseRecord, pk=pk, user=request.user)
+    feedback = None
+    
+    if hasattr(record, 'feedback_history'):
+        feedback = record.feedback_history
+    
+    return render(request, 'exerciseRecord/feedback_history.html', {
+        'record': record,
+        'feedback': feedback,
+    })
+
+
+@login_required
+def feedback_list(request):
+    """
+    ユーザーの全感想履歴を表示
+    """
+    user = request.user
+    
+    # ユーザーの全運動記録で感想がある場合のみ取得
+    feedbacks = FeedbackHistory.objects.filter(
+        exercise_record__user=user
+    ).select_related('exercise_record').order_by('-created_at')
+    
+    # ページネーション
+    paginator = Paginator(feedbacks, ITEM_PER_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'exerciseRecord/feedback_list.html', {
+        'page_obj': page_obj,
+        'feedbacks': page_obj.object_list,
     })
 
 

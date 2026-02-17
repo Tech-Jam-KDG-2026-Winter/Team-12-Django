@@ -48,3 +48,26 @@ class ExerciseRecord(models.Model):
             delta = end_time - start_time
             return int(delta.total_seconds() / 60)
         return 0
+
+class FeedbackHistory(models.Model):
+    """
+    運動の感想履歴モデル
+    """
+    exercise_record = models.OneToOneField(
+        ExerciseRecord,
+        on_delete=models.CASCADE,
+        related_name='feedback_history'
+    )
+    feedback = models.TextField(
+        help_text="運動についての感想"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = '感想履歴'
+        verbose_name_plural = '感想履歴'
+
+    def __str__(self):
+        return f"{self.exercise_record.user.username} - {self.created_at}"
