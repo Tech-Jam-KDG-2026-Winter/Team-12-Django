@@ -1,5 +1,385 @@
 [
 {
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$CZWC0y0xbQZYmuw62c701Z$SSeJOnBGLMXCoq6FzHs2Ux6zeqyKSQUIvH2NndFgvZA=",
+    "last_login": "2026-02-04T03:26:19.621Z",
+    "is_superuser": false,
+    "username": "test30i123",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-01T10:13:03.612Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/スクリーンショット_2026-01-29_14.13.23.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$XiGiaoNCfncvE7Ssix9TTA$/SHIBHOlCSdrlc0OH3ugB6qAGvJdbFEwtkt/HOLUjUY=",
+    "last_login": "2026-02-04T09:01:16.443Z",
+    "is_superuser": false,
+    "username": "test22",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-01T10:13:43.152Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/petals_of_spring_yasuo_ebT8PgE.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$P4k7t8ODwehNojAJlKdv6G$UHcwmHhhNk3Y8obHOzMtRT+A2MdvmvkL6I/AQ11xIV8=",
+    "last_login": "2026-02-03T07:59:23.505Z",
+    "is_superuser": false,
+    "username": "test3",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-01T10:13:55.361Z",
+    "last_exercise_time": null,
+    "profile_image": "default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$GdGEJ31gvYUXMmArNV0OAG$BHhs4W6xxesJH7d3ThP9RsC7Am2EDURTO1MkatUVLm4=",
+    "last_login": "2026-02-01T12:22:06.497Z",
+    "is_superuser": false,
+    "username": "test4",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-01T12:19:03.844Z",
+    "last_exercise_time": null,
+    "profile_image": "default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$ZLA3nGp8ZdjmMUOD3hiKlr$Bl+DEGc7H6h88VXLS9x03WxI3b/p5J9+42ckMe8avKw=",
+    "last_login": "2026-02-02T13:08:19.184Z",
+    "is_superuser": false,
+    "username": "test5",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-02T13:08:19.036Z",
+    "last_exercise_time": null,
+    "profile_image": "default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$jb8qFF0y2PSXP3at9EGPim$VOJ4r5sDGP2U77JhSstTi5BjZxxMBhg9I+84+tRcias=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test6",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T05:58:54.573Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/petals_of_spring_yasuo.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$p7iG04nXzccuXOXJuPrewz$mZZ2WHyBV5ecclBLnDiXvSDQxwmHGOpyzWaoCbvUkxA=",
+    "last_login": "2026-02-03T06:00:26.710Z",
+    "is_superuser": false,
+    "username": "test7",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T06:00:07.876Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/petals_of_spring_yasuo_Nr9wMdZ.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$RzhhmRbpJgbjfIRkE52STk$JsyZumnW+jwVLD9+Dg29Bw0UoYmX+YtET+K2SDU8urY=",
+    "last_login": "2026-02-03T06:04:18.990Z",
+    "is_superuser": false,
+    "username": "test8",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T06:04:18.681Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/petals_of_spring_yasuo_RmzL1KU.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$2f7PKviiS4us1dqA7abFns$avg+Ot6ZSComBOspf1PYw51Lglk9anW9EktKOo9/G7k=",
+    "last_login": "2026-02-03T07:38:34.244Z",
+    "is_superuser": false,
+    "username": "yasuo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T06:10:28.108Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/petals_of_spring_yasuo_jHPdgQc.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$c5p7cinixzYttrSsbH1tKu$vAYKVhlLEai0vdOr5v4nTmWv07cnWGmNPP8mbFAfATA=",
+    "last_login": "2026-02-03T20:32:39.847Z",
+    "is_superuser": false,
+    "username": "yone",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T20:32:39.542Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/YONE.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$MNpB5JaHfu5ph9c0unDtaN$vbh2z4c0ulmatJNsEPkTi8LbpAP5XpxLQ2LqCv6XKUM=",
+    "last_login": "2026-02-03T20:38:13.861Z",
+    "is_superuser": false,
+    "username": "a",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T20:38:13.592Z",
+    "last_exercise_time": null,
+    "profile_image": "default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$B4sn51iRTUWxOCATu4Q80M$yQDfrB4Zr4u4YgJNT2lU98Q26PvXdEAd+bqm8YBcGtM=",
+    "last_login": "2026-02-03T20:39:13.199Z",
+    "is_superuser": false,
+    "username": "adaw",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-03T20:39:12.927Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 13,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$yEZUNkYjQOeFCPLuKsD87f$VZbjemighMSAoF3WLu137WmaZnEWqeMssqw3h7G6Qqk=",
+    "last_login": "2026-02-04T12:23:20.462Z",
+    "is_superuser": true,
+    "username": "adminuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-04T02:33:06.363Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$c7NbPhM4FPxRV541uzM1Yt$YSHSs6hXRIRjBnD8UbX9ctJLprEf7PAaulie0OFRnyE=",
+    "last_login": "2026-02-04T12:51:17.099Z",
+    "is_superuser": true,
+    "username": "superuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "sp@test.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:33:50.538Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/default_profile.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 15,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$NrW5t0gi6OCNhiJKHl2Srw$dCpEUsi+CGJQ3MLKaJJb9z5wVz+GjD4Qp4UCAVHx0yo=",
+    "last_login": "2026-02-04T13:20:21.985Z",
+    "is_superuser": false,
+    "username": "栁澤明拓",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:36:01.097Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/club_8.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 16,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$1CdJTGZRQNJVHggIqzkldB$6Zzov9/ZCgVGtilCXlHgAGY0ZZWfXHpyTLPSaoNR+V0=",
+    "last_login": "2026-02-04T13:19:49.311Z",
+    "is_superuser": false,
+    "username": "白木駿介",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:39:23.061Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/Yasuo_0.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 17,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$nq0M5yAUhj4h26o7sK7BaZ$nK5DgOMwRe66LAppmWeHzxf1oeHlGppRW+a7k78ML68=",
+    "last_login": "2026-02-04T13:17:18.700Z",
+    "is_superuser": false,
+    "username": "関田知輝",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:41:06.682Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/spade_jack.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 18,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$LRl0YIeN1M4oBbfhmwutUX$6g8IWOBFBasgcY8BBwuTMxtGwWwHM/bUAIEbNgiNYi0=",
+    "last_login": "2026-02-04T13:21:42.815Z",
+    "is_superuser": false,
+    "username": "與古光海斗",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:42:57.633Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/IMG20250430142106.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 19,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$1673KMGEptXBS4g3SBbPoZ$4ZN0+UGThQIp96bEacTrPuXPa3TcfCf3ljEcWeZa5Gk=",
+    "last_login": "2026-02-04T13:23:10.193Z",
+    "is_superuser": false,
+    "username": "光山佳暉",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-02-04T12:46:58.309Z",
+    "last_exercise_time": null,
+    "profile_image": "profile_images/IMG_20241204_181419.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
   "model": "exerciseRecord.exerciserecord",
   "pk": 1,
   "fields": {
@@ -1144,55 +1524,174 @@
   }
 },
 {
-  "model": "exerciseRecord.exerciserecord",
-  "pk": 89,
+  "model": "friend.friendrequest",
+  "pk": 31,
   "fields": {
-    "user": 16,
-    "exercise_start_time": "2026-01-28T03:00:00Z",
-    "exercise_end_time": "2026-01-28T09:00:00Z",
-    "duration_minutes": 360,
-    "exercise_type": "ダイヤモンドプッシュアップ",
-    "diary": "筋肉痛が、、、、、、",
-    "created_at": "2026-02-04T14:15:30.259Z"
+    "from_user": 1,
+    "to_user": 4,
+    "created_at": "2026-02-02T11:31:01.609Z"
   }
 },
 {
-  "model": "exerciseRecord.exerciserecord",
-  "pk": 90,
+  "model": "friend.friendrequest",
+  "pk": 32,
   "fields": {
-    "user": 16,
-    "exercise_start_time": "2026-01-29T21:00:00Z",
-    "exercise_end_time": "2026-01-30T03:00:00Z",
-    "duration_minutes": 360,
-    "exercise_type": "ブルガリアンスクワット",
-    "diary": "だいぶしんどい",
-    "created_at": "2026-02-04T14:16:14.869Z"
+    "from_user": 3,
+    "to_user": 4,
+    "created_at": "2026-02-02T11:32:26.376Z"
   }
 },
 {
-  "model": "exerciseRecord.exerciserecord",
-  "pk": 93,
+  "model": "friend.friendrequest",
+  "pk": 34,
   "fields": {
-    "user": 16,
-    "exercise_start_time": "2026-02-05T00:32:16Z",
-    "exercise_end_time": "2026-02-05T03:00:00Z",
-    "duration_minutes": 147,
-    "exercise_type": "レッグプレス",
-    "diary": "筋肉痛",
-    "created_at": "2026-02-05T00:32:53.435Z"
+    "from_user": 2,
+    "to_user": 4,
+    "created_at": "2026-02-03T05:31:14.897Z"
   }
 },
 {
-  "model": "exerciseRecord.exerciserecord",
-  "pk": 95,
+  "model": "friend.friendrequest",
+  "pk": 35,
   "fields": {
-    "user": 17,
-    "exercise_start_time": "2026-02-04T00:46:52Z",
-    "exercise_end_time": "2026-02-04T03:00:00Z",
-    "duration_minutes": 133,
-    "exercise_type": "ヒップスラスト",
-    "diary": "きいた",
-    "created_at": "2026-02-05T00:47:05.965Z"
+    "from_user": 2,
+    "to_user": 5,
+    "created_at": "2026-02-03T05:31:15.324Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 38,
+  "fields": {
+    "from_user": 9,
+    "to_user": 3,
+    "created_at": "2026-02-03T07:47:47.729Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 39,
+  "fields": {
+    "from_user": 9,
+    "to_user": 4,
+    "created_at": "2026-02-03T07:47:48.601Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 40,
+  "fields": {
+    "from_user": 9,
+    "to_user": 5,
+    "created_at": "2026-02-03T07:47:49.177Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 41,
+  "fields": {
+    "from_user": 1,
+    "to_user": 3,
+    "created_at": "2026-02-04T03:10:21.570Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 42,
+  "fields": {
+    "from_user": 2,
+    "to_user": 3,
+    "created_at": "2026-02-04T03:34:47.719Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 46,
+  "fields": {
+    "from_user": 17,
+    "to_user": 19,
+    "created_at": "2026-02-04T13:19:25.601Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 47,
+  "fields": {
+    "from_user": 15,
+    "to_user": 16,
+    "created_at": "2026-02-04T13:20:43.907Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 50,
+  "fields": {
+    "from_user": 18,
+    "to_user": 16,
+    "created_at": "2026-02-04T13:22:11.708Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 52,
+  "fields": {
+    "from_user": 18,
+    "to_user": 17,
+    "created_at": "2026-02-04T13:22:36.644Z"
+  }
+},
+{
+  "model": "friend.friendrequest",
+  "pk": 53,
+  "fields": {
+    "from_user": 19,
+    "to_user": 16,
+    "created_at": "2026-02-04T13:23:35.507Z"
+  }
+},
+{
+  "model": "friend.friend",
+  "pk": 6,
+  "fields": {
+    "user1": 17,
+    "user2": 16,
+    "created_at": "2026-02-04T13:19:56.774Z"
+  }
+},
+{
+  "model": "friend.friend",
+  "pk": 7,
+  "fields": {
+    "user1": 17,
+    "user2": 15,
+    "created_at": "2026-02-04T13:20:32.920Z"
+  }
+},
+{
+  "model": "friend.friend",
+  "pk": 8,
+  "fields": {
+    "user1": 15,
+    "user2": 18,
+    "created_at": "2026-02-04T13:22:00.410Z"
+  }
+},
+{
+  "model": "friend.friend",
+  "pk": 9,
+  "fields": {
+    "user1": 15,
+    "user2": 19,
+    "created_at": "2026-02-04T13:23:24.093Z"
+  }
+},
+{
+  "model": "friend.friend",
+  "pk": 10,
+  "fields": {
+    "user1": 18,
+    "user2": 19,
+    "created_at": "2026-02-04T13:23:26.531Z"
   }
 }
 ]

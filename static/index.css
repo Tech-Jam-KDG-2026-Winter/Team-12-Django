@@ -255,6 +255,22 @@
     color: #888888;
 }
 
+/* 回数表示 */
+.workout-stats-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.workout-reps {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-exercise, #92E82A);
+    white-space: nowrap;
+}
+
 @media (max-width: 768px) {
     .profile {
         width: 100%;
@@ -262,14 +278,17 @@
         padding: 20px;
         flex-direction: row;
     }
+
     .profile-image-container {
         width: 200px;
         height: 200px;
     }
+
     .userdetail-container {
         flex-grow: 1;
         width: auto;
     }
+
     .profile-row {
         grid-template-columns: 1fr;
         padding: 10% 0;

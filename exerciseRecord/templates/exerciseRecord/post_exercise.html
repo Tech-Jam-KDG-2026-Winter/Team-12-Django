@@ -11,14 +11,8 @@
     <div class="workout-data-section">
         <div class="workout-type-card">
             <div class="workout-type-name" id="exercise-type-input">種目を選ぶ</div>
-            <div class="down-up-container">
-                <div class="down-up-button" id="open">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path></svg>
-                </div>
-                <div class="down-up-button" id="close">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"></path></svg>
-                </div>
-            </div>
+            <!-- 選択済み種目の表示エリア -->
+            <div class="selected-exercises" id="selected-exercises"></div>
             <div class="select-inner-container" id="select-inner-container">
             </div>
             <div class="time-info">
@@ -41,19 +35,29 @@
             </div>
         </div>
 
+        <!-- 回数入力セクション（回数系種目選択時のみ表示） -->
+        <div class="reps-section" id="reps-section" style="display: none;">
+            <div class="duration-card">
+                <div class="duration-label">回数</div>
+                <div class="reps-input-container">
+                    <input type="number" id="reps-input" name="reps_display" min="1" placeholder="0"
+                        class="reps-input-field">
+                    <span class="duration-unit">回</span>
+                </div>
+            </div>
+        </div>
+
         <div class="notes-section">
 
             <h3 class="section-title">感想を入力</h3>
             <div class="notes-card">
-                <form method="post">
+                <form method="post" id="exercise-form">
                     {% csrf_token %}
-                    <input type="hidden" name="exercise_type" id="exercise-type-input-value" value="その他">
-                    <textarea
-                        id="notesInput"
-                        class="notes-input"
-                        name="diary"
-                        placeholder="運動の内容や感想を記録してください"
-                    >{{ form.diary.value|default_if_none:"" }}</textarea>
+                    <!-- 複数のhidden inputが動的に追加される -->
+                    <div id="exercise-types-hidden-inputs"></div>
+                    <input type="hidden" name="reps" id="reps-hidden-value" value="">
+                    <textarea id="notesInput" class="notes-input" name="diary"
+                        placeholder="運動の内容や感想を記録してください">{{ form.diary.value|default_if_none:"" }}</textarea>
                     <button class="edit-button" type="submit">
                         感想を保存
                     </button>
@@ -69,12 +73,95 @@
             const EXERCISES = JSON.parse(
                 document.getElementById("exercises-data").textContent
             );
-            const value = document.getElementById("exercise-type-input-value");
-            const open = document.getElementById("open");
-            const close = document.getElementById("close");
-            close.classList.add("hidden");
-            const select = document.getElementById("exercise-type-input");
+            const selectLabel = document.getElementById("exercise-type-input");
             const selectInnerContainer = document.getElementById("select-inner-container");
+            const selectedExercisesContainer = document.getElementById("selected-exercises");
+            const hiddenInputsContainer = document.getElementById("exercise-types-hidden-inputs");
+
+            // 選択済み種目を管理するSet
+            const selectedExercises = new Set();
+
+            // 回数関連の要素
+            const repsSection = document.getElementById("reps-section");
+            const repsInput = document.getElementById("reps-input");
+            const repsHiddenValue = document.getElementById("reps-hidden-value");
+
+            // 回数入力の値をhiddenフィールドに同期
+            repsInput.addEventListener("input", () => {
+                repsHiddenValue.value = repsInput.value;
+            });
+
+            // 種目名を取得するヘルパー（dict or 文字列対応）
+            function getExName(ex) {
+                return (typeof ex === 'object' && ex.name) ? ex.name : ex;
+            }
+
+            // 種目名からタイプ（reps/time）を取得するヘルパー関数
+            function getExerciseType(exerciseName) {
+                for (const key in EXERCISES) {
+                    for (const ex of EXERCISES[key].exercises) {
+                        if (typeof ex === 'object' && ex.name === exerciseName) {
+                            return ex.type;
+                        }
+                    }
+                }
+                return "time"; // デフォルトは時間系
+            }
+
+            // 選択状態を更新する統合関数
+            function updateSelection() {
+                // ヘッダーラベル更新
+                if (selectedExercises.size === 0) {
+                    selectLabel.textContent = "種目を選ぶ";
+                } else {
+                    selectLabel.textContent = `${selectedExercises.size}種目 選択中`;
+                }
+
+                // 選択済み種目のタグ表示を更新
+                selectedExercisesContainer.innerHTML = "";
+                selectedExercises.forEach(name => {
+                    const tag = document.createElement("span");
+                    tag.classList.add("selected-tag");
+                    tag.textContent = name;
+                    // タグクリックで解除
+                    const removeBtn = document.createElement("span");
+                    removeBtn.classList.add("selected-tag-remove");
+                    removeBtn.textContent = "✕";
+                    removeBtn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        selectedExercises.delete(name);
+                        updateSelection();
+                        updateInner();
+                    });
+                    tag.appendChild(removeBtn);
+                    selectedExercisesContainer.appendChild(tag);
+                });
+
+                // hidden inputを更新
+                hiddenInputsContainer.innerHTML = "";
+                selectedExercises.forEach(name => {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "exercise_types";
+                    input.value = name;
+                    hiddenInputsContainer.appendChild(input);
+                });
+
+                // 回数セクションの表示/非表示（回数系種目が1つでもあれば表示）
+                let hasRepsType = false;
+                selectedExercises.forEach(name => {
+                    if (getExerciseType(name) === "reps") {
+                        hasRepsType = true;
+                    }
+                });
+                if (hasRepsType) {
+                    repsSection.style.display = "block";
+                } else {
+                    repsSection.style.display = "none";
+                    repsInput.value = "";
+                    repsHiddenValue.value = "";
+                }
+            }
 
             const selectInnerContainerHeader = document.createElement("div");
             selectInnerContainerHeader.classList.add("header");
@@ -109,30 +196,44 @@
                 for (const exercisesKey in EXERCISES) {
                     if (exercisesKey == filter || filter == "all") {
                         EXERCISES[exercisesKey].exercises.forEach(ex => {
+                            const name = getExName(ex);
                             const exercise = document.createElement("div");
                             exercise.classList.add("exercise");
-                            exercise.textContent = ex;
+                            exercise.textContent = name;
+
+                            // 選択済みならハイライト
+                            if (selectedExercises.has(name)) {
+                                exercise.classList.add("selected");
+                            }
+
                             exercise.addEventListener("click", () => {
-                                select.textContent = ex;
-                                value.value = ex;
-                            })
+                                // トグル: 選択済みなら解除、未選択なら追加
+                                if (selectedExercises.has(name)) {
+                                    selectedExercises.delete(name);
+                                    exercise.classList.remove("selected");
+                                } else {
+                                    selectedExercises.add(name);
+                                    exercise.classList.add("selected");
+                                }
+                                updateSelection();
+                            });
                             selectInnerContainerMain.appendChild(exercise);
                         });
                     }
                 }
             }
 
-            open.addEventListener("click", (e) => {
+            selectLabel.addEventListener("click", (e) => {
                 e.stopPropagation();
-                open.classList.add("hidden");
-                close.classList.remove("hidden");
                 updateInner();
                 selectInnerContainer.classList.add("open");
-                close.addEventListener("click", (e) => {
-                    selectInnerContainer.classList.remove("open");
-                    open.classList.remove("hidden");
-                    close.classList.add("hidden");
-                })
+                const hidden = (e) => {
+                    if (!selectInnerContainer.contains(e.target)) {
+                        selectInnerContainer.classList.remove("open");
+                        document.removeEventListener("click", hidden);
+                    }
+                }
+                document.addEventListener("click", hidden)
             })
         })
     </script>
