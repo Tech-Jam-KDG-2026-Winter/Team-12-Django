@@ -1,5 +1,5 @@
 from django import forms
-from .models import ExerciseRecord
+from .models import ExerciseRecord, FeedbackHistory
 
 class ExerciseRecordForm(forms.ModelForm):
     # 複数選択できるフィールド
@@ -52,20 +52,19 @@ class ExerciseRecordForm(forms.ModelForm):
             instance.save()
         return instance
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # consts.pyから選択肢を取得
-        self.fields['exercise_types'].choices = ExerciseRecord.get_exercise_choices()
-        
-        # 既存のレコードを編集する場合、選択済みの値を設定
-        if self.instance and self.instance.pk:
-            if isinstance(self.instance.exercise_types, list):
-                self.initial['exercise_types'] = self.instance.exercise_types
-    
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        # 選択された運動種目をリストとして保存
-        instance.exercise_types = self.cleaned_data.get('exercise_types', [])
-        if commit:
-            instance.save()
-        return instance
+
+class FeedbackHistoryForm(forms.ModelForm):
+    """感想履歴フォーム"""
+    class Meta:
+        model = FeedbackHistory
+        fields = ('feedback',)
+        labels = {
+            'feedback': '感想',
+        }
+        widgets = {
+            'feedback': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': '運動についての感想を記入してください'
+            }),
+        }

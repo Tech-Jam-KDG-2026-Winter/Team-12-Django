@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}感想を保存 - {{ record.user.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>運動の感想を保存</h2>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">運動記録</h5>
+                    <p><strong>種目:</strong> {{ record.exercise_type }}</p>
+                    <p><strong>日時:</strong> {{ record.exercise_end_time|date:"Y年m月d日 H:i" }}</p>
+                    <p><strong>運動時間:</strong> {{ record.duration_display }}</p>
+                    {% if record.diary %}
+                        <p><strong>運動記録:</strong> {{ record.diary }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.feedback.id_for_label }}">{{ form.feedback.label }}</label>
+                    {{ form.feedback }}
+                    {% if form.feedback.errors %}
+                        <div class="alert alert-danger">{{ form.feedback.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">感想を保存</button>
+                <a href="{% url 'index' %}" class="btn btn-secondary">キャンセル</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

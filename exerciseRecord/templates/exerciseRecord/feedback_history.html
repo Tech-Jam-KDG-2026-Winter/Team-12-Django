@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}感想 - {{ record.user.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>運動の感想</h2>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">運動記録</h5>
+                    <p><strong>種目:</strong> {{ record.exercise_type }}</p>
+                    <p><strong>日時:</strong> {{ record.exercise_end_time|date:"Y年m月d日 H:i" }}</p>
+                    <p><strong>運動時間:</strong> {{ record.duration_display }}</p>
+                    {% if record.diary %}
+                        <p><strong>運動記録:</strong> {{ record.diary }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if feedback %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">感想</h5>
+                        <p>{{ feedback.feedback }}</p>
+                        <small class="text-muted">保存日時: {{ feedback.created_at|date:"Y年m月d日 H:i" }}</small>
+                        {% if feedback.updated_at != feedback.created_at %}
+                            <br>
+                            <small class="text-muted">最終更新: {{ feedback.updated_at|date:"Y年m月d日 H:i" }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <a href="{% url 'save_feedback' record.pk %}" class="btn btn-warning">編集</a>
+                    <a href="{% url 'index' %}" class="btn btn-secondary">戻る</a>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    まだ感想が保存されていません。
+                </div>
+                <div class="mt-3">
+                    <a href="{% url 'save_feedback' record.pk %}" class="btn btn-primary">感想を追加</a>
+                    <a href="{% url 'index' %}" class="btn btn-secondary">戻る</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
