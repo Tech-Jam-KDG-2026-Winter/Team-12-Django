@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
 # Create your models here.
@@ -8,6 +9,14 @@ class User(AbstractUser):
     """
     カスタムユーザー
     """
+    username_validator = UnicodeUsernameValidator()
+
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        validators=[],  # バリデータ外す
+    )
+
     last_exercise_time = models.DateTimeField(
         null=True,
         blank=True,
@@ -33,8 +42,8 @@ class User(AbstractUser):
     )
 
     last_sleep_time = models.DateTimeField(
-        null=True, 
-        blank=True, 
+        null=True,
+        blank=True,
         verbose_name="最終睡眠開始時刻"
     )
 

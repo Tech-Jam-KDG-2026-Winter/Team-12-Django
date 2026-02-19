@@ -12,7 +12,9 @@ from django.views.decorators.http import require_POST
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST, request.FILES)
+        print(request.POST)
         if form.is_valid():
+            print("アカウント作成")
             form.save()
             user = form.save()
             auth_login(request, user)

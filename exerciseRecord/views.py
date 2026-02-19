@@ -211,8 +211,6 @@ def index_view(request):
         .annotate(total_minutes=Sum("duration_minutes"))
         .order_by("date")
     )
-    print(exercise_records[0].details.all())
-    print(exercise_records[len(exercise_records) - 1].details.all())
     weekly_data = []
     total_time = 0
     max_time = 0
