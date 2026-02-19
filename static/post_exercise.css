@@ -240,6 +240,15 @@
     margin-bottom: 8px;
 }
 
+.selected-exercises input {
+    width: 30px;
+    height: 20px;
+    background-color: #00000000;
+    padding: 0px;
+    text-align: right;
+    border-color: #00000000;
+}
+
 .selected-tag {
     display: inline-flex;
     align-items: center;

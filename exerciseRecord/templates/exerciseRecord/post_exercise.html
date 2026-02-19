@@ -11,9 +11,9 @@
     <div class="workout-data-section">
         <div class="workout-type-card">
             <div class="workout-type-name" id="exercise-type-input">種目を選ぶ</div>
-            <!-- 選択済み種目の表示エリア -->
-            <div class="selected-exercises" id="selected-exercises"></div>
-            <div class="select-inner-container" id="select-inner-container">
+                <!-- 選択済み種目の表示エリア -->
+                <div class="selected-exercises" id="selected-exercises"></div>
+                <div class="select-inner-container" id="select-inner-container">
             </div>
             <div class="time-info">
                 <div class="time-row">
@@ -35,29 +35,17 @@
             </div>
         </div>
 
-        <!-- 回数入力セクション（回数系種目選択時のみ表示） -->
-        <div class="reps-section" id="reps-section" style="display: none;">
-            <div class="duration-card">
-                <div class="duration-label">回数</div>
-                <div class="reps-input-container">
-                    <input type="number" id="reps-input" name="reps_display" min="1" placeholder="0"
-                        class="reps-input-field">
-                    <span class="duration-unit">回</span>
-                </div>
-            </div>
-        </div>
-
         <div class="notes-section">
 
             <h3 class="section-title">感想を入力</h3>
             <div class="notes-card">
                 <form method="post" id="exercise-form">
                     {% csrf_token %}
-                    <!-- 複数のhidden inputが動的に追加される -->
-                    <div id="exercise-types-hidden-inputs"></div>
-                    <input type="hidden" name="reps" id="reps-hidden-value" value="">
+                    {{ formset.management_form }}
+                    <div id="detail-forms" class="hidden">
+                    </div>
                     <textarea id="notesInput" class="notes-input" name="diary"
-                        placeholder="運動の内容や感想を記録してください">{{ form.diary.value|default_if_none:"" }}</textarea>
+                            placeholder="運動の内容や感想を記録してください">{{ form.diary.value|default_if_none:"" }}</textarea>
                     <button class="edit-button" type="submit">
                         感想を保存
                     </button>
@@ -73,23 +61,16 @@
             const EXERCISES = JSON.parse(
                 document.getElementById("exercises-data").textContent
             );
+            const prefix = "details"; // Django の formset.prefix
             const selectLabel = document.getElementById("exercise-type-input");
             const selectInnerContainer = document.getElementById("select-inner-container");
             const selectedExercisesContainer = document.getElementById("selected-exercises");
-            const hiddenInputsContainer = document.getElementById("exercise-types-hidden-inputs");
+            const hiddenInputsContainer = document.getElementById("detail-forms");
+            // 現在のフォーム数を取得
+            const totalFormsInput = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
 
             // 選択済み種目を管理するSet
-            const selectedExercises = new Set();
-
-            // 回数関連の要素
-            const repsSection = document.getElementById("reps-section");
-            const repsInput = document.getElementById("reps-input");
-            const repsHiddenValue = document.getElementById("reps-hidden-value");
-
-            // 回数入力の値をhiddenフィールドに同期
-            repsInput.addEventListener("input", () => {
-                repsHiddenValue.value = repsInput.value;
-            });
+            const selectedExercises = [];
 
             // 種目名を取得するヘルパー（dict or 文字列対応）
             function getExName(ex) {
@@ -111,56 +92,68 @@
             // 選択状態を更新する統合関数
             function updateSelection() {
                 // ヘッダーラベル更新
-                if (selectedExercises.size === 0) {
+                if (selectedExercises.length === 0) {
                     selectLabel.textContent = "種目を選ぶ";
                 } else {
-                    selectLabel.textContent = `${selectedExercises.size}種目 選択中`;
+                    selectLabel.textContent = `${selectedExercises.length}種目 選択中`;
                 }
 
                 // 選択済み種目のタグ表示を更新
                 selectedExercisesContainer.innerHTML = "";
-                selectedExercises.forEach(name => {
-                    const tag = document.createElement("span");
+                selectedExercises.forEach(selectedExercise => {
+                    const tag = document.createElement("div");
                     tag.classList.add("selected-tag");
-                    tag.textContent = name;
+                    const exerciseType = document.createElement("span");
+                    exerciseType.textContent = selectedExercise.name;
+                    tag.append(exerciseType);
+                    if (getExerciseType(selectedExercise.name) === "reps") {
+                        const countInput = document.createElement("input");
+                        countInput.type = "number";
+                        countInput.value = selectedExercise.count;
+                        countInput.addEventListener("input", (e) => {
+                            selectedExercise.count = Number(countInput.value);
+                        })
+                        const countString = document.createElement("span");
+                        countString.textContent = "回";
+                        tag.append(countInput, countString);
+                    }
                     // タグクリックで解除
                     const removeBtn = document.createElement("span");
                     removeBtn.classList.add("selected-tag-remove");
                     removeBtn.textContent = "✕";
                     removeBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
-                        selectedExercises.delete(name);
+                        selectedExercises.splice(selectedExercises.indexOf(selectedExercise), 1);
                         updateSelection();
                         updateInner();
                     });
-                    tag.appendChild(removeBtn);
+                    tag.append(removeBtn);
                     selectedExercisesContainer.appendChild(tag);
                 });
 
-                // hidden inputを更新
-                hiddenInputsContainer.innerHTML = "";
-                selectedExercises.forEach(name => {
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = "exercise_types";
-                    input.value = name;
-                    hiddenInputsContainer.appendChild(input);
-                });
+                // 実際に送られるフォームの値
+                hiddenInputsContainer.replaceChildren();
+                selectedExercises.forEach((selectedExercise, index) => {
+                    const newForm = document.createElement("div");
+                    newForm.classList.add("detail-form");
 
-                // 回数セクションの表示/非表示（回数系種目が1つでもあれば表示）
-                let hasRepsType = false;
-                selectedExercises.forEach(name => {
-                    if (getExerciseType(name) === "reps") {
-                        hasRepsType = true;
-                    }
+                    const exerciseTypeInput = document.createElement("input");
+                    exerciseTypeInput.type = "text";
+                    exerciseTypeInput.name = `${prefix}-${index}-exercise_type`;  // prefix と field 名
+                    exerciseTypeInput.value = selectedExercise.name;
+                    exerciseTypeInput.classList.add("form-control");
+
+                    const repsInput = document.createElement("input");
+                    repsInput.type = "number";
+                    repsInput.name = `${prefix}-${index}-reps`;  // prefix と field 名
+                    repsInput.value = selectedExercise.count;
+                    repsInput.classList.add("form-control");
+                    repsInput.min = 0;
+
+                    newForm.append(exerciseTypeInput, repsInput);
+                    hiddenInputsContainer.appendChild(newForm);
                 });
-                if (hasRepsType) {
-                    repsSection.style.display = "block";
-                } else {
-                    repsSection.style.display = "none";
-                    repsInput.value = "";
-                    repsHiddenValue.value = "";
-                }
+                totalFormsInput.value = String(selectedExercises.length);
             }
 
             const selectInnerContainerHeader = document.createElement("div");
@@ -202,17 +195,17 @@
                             exercise.textContent = name;
 
                             // 選択済みならハイライト
-                            if (selectedExercises.has(name)) {
+                            if (selectedExercises.map(selectedExercise => selectedExercise.name).includes(name)) {
                                 exercise.classList.add("selected");
                             }
 
                             exercise.addEventListener("click", () => {
                                 // トグル: 選択済みなら解除、未選択なら追加
-                                if (selectedExercises.has(name)) {
-                                    selectedExercises.delete(name);
+                                if (selectedExercises.map(selectedExercise => selectedExercise.name).includes(name)) {
+                                    selectedExercises.splice(selectedExercises.map(selectedExercise => selectedExercise.name).indexOf(name), 1);
                                     exercise.classList.remove("selected");
                                 } else {
-                                    selectedExercises.add(name);
+                                    selectedExercises.push({name: name, count: 1});
                                     exercise.classList.add("selected");
                                 }
                                 updateSelection();

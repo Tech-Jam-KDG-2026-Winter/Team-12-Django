@@ -105,6 +105,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ページ読み込み時に保存済みテーマを復元
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+
             const footer_nav_items = document.getElementsByClassName('nav-items')[0];
             const currentPath = window.location.pathname;
 

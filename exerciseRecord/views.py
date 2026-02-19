@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from exerciseRecord.forms import ExerciseRecordForm, FeedbackHistoryForm
+from exerciseRecord.forms import ExerciseRecordForm, FeedbackHistoryForm, ExerciseRecordDetailFormSet
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db.models import Sum
@@ -72,32 +72,30 @@ def post_exercise(request, pk):
     """
     運動終了後の投稿画面（日記入力画面）
     GET: 運動データと日記入力フォームを表示
-    POST: 入力された日記を保存
+    POST: 入力された日記と種目ごとの reps を保存
     """
-    # URLのpk（運動記録ID）に対応するデータを取得
-    # 必ずログインユーザー本人の記録であることを確認（他人の記録は見れない）
     record = get_object_or_404(ExerciseRecord, pk=pk, user=request.user)
-    # POSTリクエスト（「投稿する」ボタンが押された時）
+
     if request.method == 'POST':
-        # フォームに入力データと、更新対象のレコード(instance)を渡す
+        print(request.POST)
+        # 親フォーム
         form = ExerciseRecordForm(request.POST, instance=record)
-        # 入力内容にエラーがないかチェック
-        if form.is_valid():
-            # データベースに保存（日記の内容が更新される）
-            form.save()
-            # 保存完了後はトップ画面へリダイレクト
+        # 子フォーム（種目ごとの reps）
+        formset = ExerciseRecordDetailFormSet(request.POST, instance=record)
+        print(f"処理来てる0 form {form.is_valid()} formset {formset.is_valid()}")
+        if form.is_valid() and formset.is_valid():
+            print("処理来てる1")
+            print(form.save())
+            print(formset.save())
             return redirect('index')
 
-    # GETリクエスト（最初にページを開いた時）
     else:
-        # 既存のデータがあればそれをフォームに入れた状態で初期化
         form = ExerciseRecordForm(instance=record)
+        formset = ExerciseRecordDetailFormSet(instance=record)
 
-    # テンプレートを表示
-    # 'form': 入力フォーム
-    # 'record': 運動時間などのデータ表示用
     return render(request, 'exerciseRecord/post_exercise.html', {
         'form': form,
+        'formset': formset,
         'record': record,
         "exercises_json": EXERCISES,
     })
@@ -191,7 +189,6 @@ def remove_exercise(request, pk):
 def index_view(request):
     user = request.user
     exercise_records = ExerciseRecord.objects.filter(user=user).order_by("-exercise_end_time")
-    print(exercise_records)
     today = timezone.localdate()
     start_date = today - timedelta(days=6)
 
@@ -214,6 +211,8 @@ def index_view(request):
         .annotate(total_minutes=Sum("duration_minutes"))
         .order_by("date")
     )
+    print(exercise_records[0].details.all())
+    print(exercise_records[len(exercise_records) - 1].details.all())
     weekly_data = []
     total_time = 0
     max_time = 0

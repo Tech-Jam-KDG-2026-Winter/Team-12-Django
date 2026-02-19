@@ -2,10 +2,9 @@ from django.contrib import admin
 from django.utils import timezone
 from .models import ExerciseRecord, FeedbackHistory
 
-
 @admin.register(ExerciseRecord)
 class ExerciseRecordAdmin(admin.ModelAdmin):
-    list_display = ['user', 'exercise_types_display', 'reps', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
+    list_display = ['user', 'exercise_types_display', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
     list_filter = ['created_at', 'user']
     search_fields = ['user__username', 'diary']
     ordering = ['-created_at']
@@ -15,7 +14,7 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('運動情報', {
-            'fields': ('exercise_types', 'refs' 'exercise_start_time', 'exercise_end_time')
+            'fields': ('exercise_start_time', 'exercise_end_time')
         }),
         ('感想', {
             'fields': ('diary',),
@@ -51,16 +50,13 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackHistory)
 class FeedbackHistoryAdmin(admin.ModelAdmin):
-    list_display = ['get_user', 'get_exercise_types', 'get_exercise_date', 'created_at']
-    list_filter = ['created_at', 'exercise_record__exercise_type']
-    search_fields = ['exercise_record__user__username', 'feedback']
+    list_display = ['get_user', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['user__username', 'feedback']
     ordering = ['-created_at']
     readonly_fields = ['created_at', 'updated_at']
 
     fieldsets = (
-        ('運動情報', {
-            'fields': ('exercise_record',)
-        }),
         ('感想', {
             'fields': ('feedback',)
         }),
@@ -74,8 +70,3 @@ class FeedbackHistoryAdmin(admin.ModelAdmin):
         """ユーザー名を表示"""
         return obj.exercise_record.user.username
     get_user.short_description = 'ユーザー'
-
-    def get_exercise_date(self, obj):
-        """運動日時を表示"""
-        return obj.exercise_record.exercise_end_time
-    get_exercise_date.short_description = '運動日時'

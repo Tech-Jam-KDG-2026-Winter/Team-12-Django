@@ -1,31 +1,26 @@
 from django import forms
-from .models import ExerciseRecord, FeedbackHistory
+from django.forms import inlineformset_factory
+from .models import ExerciseRecord, ExerciseRecordDetail, FeedbackHistory
 
+# Detail用フォーム
+class ExerciseRecordDetailForm(forms.ModelForm):
+    class Meta:
+        model = ExerciseRecordDetail
+        fields = ('exercise_type', 'reps')
+        widgets = {
+            'exercise_type': forms.Select(attrs={'class': 'form-control'}),
+            'reps': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': '回数を入力',
+                'min': 1
+            }),
+        }
+
+# ExerciseRecord用フォーム
 class ExerciseRecordForm(forms.ModelForm):
-    # 複数選択できるフィールド
-    exercise_types = forms.MultipleChoiceField(
-        label='運動種目',
-        choices=[],
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    # 回数フィールド
-    reps = forms.IntegerField(
-        required=False,
-        label='回数',
-        min_value=1,
-        widget=forms.NumberInput(attrs={
-            'class': 'form-control',
-            'placeholder': '回数を入力'
-        })
-    )
-
     class Meta:
         model = ExerciseRecord
-        fields = ('exercise_types', 'reps', 'diary',)
-        labels = {
-            'diary': '運動記録',
-        }
+        fields = ('diary',)
         widgets = {
             'diary': forms.Textarea(attrs={
                 'class': 'form-control',
@@ -34,24 +29,14 @@ class ExerciseRecordForm(forms.ModelForm):
             }),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # consts.pyから選択肢を取得
-        self.fields['exercise_types'].choices = ExerciseRecord.get_exercise_choices()
-        
-        # 既存のレコードを編集する場合、選択済みの値を設定
-        if self.instance and self.instance.pk:
-            if isinstance(self.instance.exercise_types, list):
-                self.initial['exercise_types'] = self.instance.exercise_types
-    
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        # 選択された運動種目をリストとして保存
-        instance.exercise_types = self.cleaned_data.get('exercise_types', [])
-        if commit:
-            instance.save()
-        return instance
-
+# Formset を作成
+ExerciseRecordDetailFormSet = inlineformset_factory(
+    ExerciseRecord,
+    ExerciseRecordDetail,
+    form=ExerciseRecordDetailForm,
+    extra=1,
+    can_delete=True
+)
 
 class FeedbackHistoryForm(forms.ModelForm):
     """感想履歴フォーム"""

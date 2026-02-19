@@ -7,6 +7,15 @@
 {% block h1 %}運動管理アプリ{% endblock %}
 {% block content %}
 <div class="container">
+    <!-- トグルボタン -->
+    <button class="theme-toggle-button" onclick="toggleTheme()">
+        <span id="light">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="1" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><g id="Light"><g><path d="M12,18.09A6.09,6.09,0,1,1,18.09,12,6.1,6.1,0,0,1,12,18.09ZM12,6.91A5.09,5.09,0,1,0,17.09,12,5.1,5.1,0,0,0,12,6.91Z"></path><path d="M11.5,2.568v1.6a.5.5,0,1,0,1,0v-1.6a.5.5,0,1,0-1,0Z"></path><path d="M12.5,21.432v-1.6a.5.5,0,0,0-1,0v1.6a.5.5,0,1,0,1,0Z"></path><path d="M21.432,11.5h-1.6a.5.5,0,0,0,0,1h1.6a.5.5,0,1,0,0-1Z"></path><path d="M2.568,12.5h1.6a.5.5,0,1,0,0-1h-1.6a.5.5,0,1,0,0,1Z"></path><path d="M18.316,4.977l-.992.992-.141.141a.514.514,0,0,0-.146.353.508.508,0,0,0,.146.354.5.5,0,0,0,.354.146.515.515,0,0,0,.353-.146l.992-.992.141-.141a.515.515,0,0,0,.147-.354.508.508,0,0,0-.147-.353.5.5,0,0,0-.353-.147.522.522,0,0,0-.354.147Z"></path><path d="M5.684,19.023l.992-.992.141-.141a.514.514,0,0,0,.146-.353.508.508,0,0,0-.146-.354.5.5,0,0,0-.354-.146.515.515,0,0,0-.353.146l-.992.992-.141.141a.515.515,0,0,0-.147.354.508.508,0,0,0,.147.353.5.5,0,0,0,.353.147.522.522,0,0,0,.354-.147Z"></path><path d="M19.023,18.316l-.992-.992-.141-.141a.514.514,0,0,0-.353-.146.508.508,0,0,0-.354.146.5.5,0,0,0-.146.354.515.515,0,0,0,.146.353l.992.992.141.141a.515.515,0,0,0,.354.147.508.508,0,0,0,.353-.147.5.5,0,0,0,.147-.353.522.522,0,0,0-.147-.354Z"></path><path d="M4.977,5.684l.992.992.141.141a.514.514,0,0,0,.353.146.508.508,0,0,0,.354-.146.5.5,0,0,0,.146-.354.515.515,0,0,0-.146-.353l-.992-.992-.141-.141A.515.515,0,0,0,5.33,4.83a.508.508,0,0,0-.353.147.5.5,0,0,0-.147.353.522.522,0,0,0,.147.354Z"></path></g></g></svg>
+        </span>
+        <span id="dark">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="1" viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><g id="Dark"><path d="M12.741,20.917a9.389,9.389,0,0,1-1.395-.105,9.141,9.141,0,0,1-1.465-17.7,1.177,1.177,0,0,1,1.21.281,1.273,1.273,0,0,1,.325,1.293,8.112,8.112,0,0,0-.353,2.68,8.266,8.266,0,0,0,4.366,6.857,7.628,7.628,0,0,0,3.711.993,1.242,1.242,0,0,1,.994,1.963h0A9.148,9.148,0,0,1,12.741,20.917ZM10.261,4.05a.211.211,0,0,0-.065.011,8.137,8.137,0,1,0,9.131,12.526h0a.224.224,0,0,0,.013-.235.232.232,0,0,0-.206-.136A8.619,8.619,0,0,1,14.946,15.1a9.274,9.274,0,0,1-4.883-7.7,9.123,9.123,0,0,1,.4-3.008.286.286,0,0,0-.069-.285A.184.184,0,0,0,10.261,4.05Z"></path></g></svg>
+        </span>
+    </button>
     <div class="profile-row">
         <div class="profile">
             <div class="profile-image-container" id="profile-image-container">
@@ -33,39 +42,43 @@
                             <button type="button" id="cancel-username-btn" class="cancel-btn">キャンセル</button>
                         </div>
                         <p id="username-error" class="error-message"
-                            style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;">
-                        </p>
+                            style="display: none; color: red; font-size: 0.8em; margin-top: 5px; white-space: nowrap;"></p>
                     </div>
                 </div>
 
-                <!-- Social Media Links -->
-                <div class="social-media-links" style="margin-top: 10px;">
-                    {% if user.twitter_url %}
-                    <a href="{{ user.twitter_url }}" target="_blank" rel="noopener noreferrer" title="X (Twitter)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-3.010-3.010h-16.977a3.016 3.016 0 0 0-3.01 3.01v10.628a3.016 3.016 0 0 0 3.01 3.01h16.977a3.016 3.016 0 0 0 3.01-3.01V6.186z" fill="none"/><path d="M23 6a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6z"/>
-                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" font-weight="bold" fill="white" transform="translate(0, -1)">X</text>
-                        </svg>
-                    </a>
-                    {% endif %}
-                    {% if user.instagram_url %}
-                    <a href="{{ user.instagram_url }}" target="_blank" rel="noopener noreferrer" title="Instagram" style="margin-left: 10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <circle cx="17.5" cy="6.5" r="1.5"></circle>
-                        </svg>
-                    </a>
-                    {% endif %}
-                </div>
-
-                <!-- Edit Profile Link -->
-                <a href="{% url 'accounts:profile_edit' %}" class="btn btn-sm btn-primary" style="margin-top: 15px;">
-                    プロフィール編集
-                </a>
-
+                <!-- <p>{{ user_profile.email }}</p> -->
+                <p>{{ user_profile.date_joined }}</p>
                 <script>
+                    // テーマ切り替えボタン
+                    function toggleTheme() {
+                        console.log("テーマ切り替え")
+                        const html = document.documentElement;
+                        const current = html.getAttribute('data-theme');
+
+                        if (current === 'dark') {
+                            document.getElementById("light").classList.remove("hidden");
+                            document.getElementById("dark").classList.add("hidden");
+                            html.setAttribute('data-theme', 'light');
+                            localStorage.setItem('theme', 'light');
+                        } else {
+                            document.getElementById("dark").classList.remove("hidden");
+                            document.getElementById("light").classList.add("hidden");
+                            html.setAttribute('data-theme', 'dark');
+                            localStorage.setItem('theme', 'dark');
+                        }
+                    };
                     document.addEventListener('DOMContentLoaded', function () {
+                        const savedTheme = localStorage.getItem('theme');
+                        if (savedTheme) {
+                            if (savedTheme === 'dark') {
+                                document.getElementById("dark").classList.remove("hidden");
+                                document.getElementById("light").classList.add("hidden");
+                            } else {
+                                document.getElementById("light").classList.remove("hidden");
+                                document.getElementById("dark").classList.add("hidden");
+                            }
+                        }
+
                         const displayEl = document.getElementById('username-display');
                         const formEl = document.getElementById('username-edit-form');
                         const inputEl = document.getElementById('username-input');
@@ -73,38 +86,38 @@
                         const saveBtn = document.getElementById('save-username-btn');
                         const cancelBtn = document.getElementById('cancel-username-btn');
                         const errorEl = document.getElementById('username-error');
-
+    
                         const profileImageContainer = document.getElementById('profile-image-container');
                         const profileImageInput = document.getElementById('profile-image-input');
                         const profileImage = document.getElementById('profile-image');
-
+    
                         // --- Image Upload ---
                         profileImageContainer.addEventListener('click', function () {
                             profileImageInput.click();
                         });
-
+    
                         profileImageInput.addEventListener('change', function (event) {
                             const file = event.target.files[0];
                             if (!file) return;
-
+    
                             // Check file type (Match signup.html mechanism)
                             if (!file.type.startsWith('image/')) {
                                 alert('画像ファイルを選択してください');
                                 this.value = ''; // Clear the input value
                                 return;
                             }
-
+    
                             // Preview image (Match signup.html mechanism)
                             const reader = new FileReader();
                             reader.onload = function (e) {
                                 profileImage.src = e.target.result;
                             };
                             reader.readAsDataURL(file);
-
+    
                             // Upload image
                             const formData = new FormData();
                             formData.append('profile_image', file);
-
+    
                             uploadData(formData, function (data) {
                                 if (data.image_url) {
                                     // Ensure src is updated to server URL (though preview already showed it)
@@ -112,9 +125,9 @@
                                 }
                             });
                         });
-
+    
                         // --- Username Edit ---
-
+    
                         // Show edit form
                         editBtn.addEventListener('click', function () {
                             displayEl.style.display = 'none';
@@ -122,14 +135,14 @@
                             inputEl.focus();
                             errorEl.style.display = 'none';
                         });
-
+    
                         // Hide edit form
                         cancelBtn.addEventListener('click', function () {
                             formEl.style.display = 'none';
                             displayEl.style.display = 'flex'; // Changed to flex to keep icon aligned
                             inputEl.value = displayEl.firstChild.textContent.trim(); // Reset input
                         });
-
+    
                         // Save changes
                         saveBtn.addEventListener('click', function () {
                             const newUsername = inputEl.value.trim();
@@ -137,24 +150,24 @@
                                 showError('ユーザー名を入力してください');
                                 return;
                             }
-
+    
                             // Clear previous error
                             errorEl.style.display = 'none';
-
+    
                             // Disable button to prevent double submit
                             saveBtn.disabled = true;
                             saveBtn.textContent = '保存中...';
-
+    
                             // Use FormData for consistency, though backend supports JSON too
                             const formData = new FormData();
                             formData.append('username', newUsername);
-
+    
                             uploadData(formData, function (data) {
                                 // Update display
                                 displayEl.firstChild.textContent = newUsername + ' ';
                                 // Also update alt text of profile image
                                 if (profileImage) profileImage.alt = newUsername;
-
+    
                                 // Return to display mode
                                 formEl.style.display = 'none';
                                 displayEl.style.display = 'flex';
@@ -163,7 +176,7 @@
                                 saveBtn.textContent = '保存';
                             });
                         });
-
+    
                         function uploadData(formData, onSuccess, onComplete) {
                             fetch("{% url 'accounts:update_profile' %}", {
                                 method: 'POST',
@@ -188,7 +201,7 @@
                                     if (onComplete) onComplete();
                                 });
                         }
-
+    
                         function showError(msg) {
                             errorEl.textContent = msg;
                             errorEl.style.display = 'block';
@@ -206,27 +219,32 @@
                         }
                     });
                 </script>
-                <!-- <p>{{ user_profile.email }}</p> -->
-                <p>{{ user_profile.date_joined }}</p>
             </div>
         </div>
         <div class="workouts-section">
             {% for exercise_record in exercise_records %}
             <div class="workout-card">
+                <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
                 <div class="workout-info">
-                    <div class="workout-name">{{ exercise_record.exercise_types_display }}</div>
+                    <div class="workout-name">
+                        {% if exercise_record.details.exists %}
+                            {% for detail in exercise_record.details.all %}
+                                {{ detail.exercise_type }}{% if detail.reps %}（{{ detail.reps }}回）{% endif %}
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            未登録
+                        {% endif %}
+                    </div>
                     <div class="workout-details">{{ exercise_record.diary }}</div>
                 </div>
-                <div class="workout-time-group">
-                    {% if exercise_record.reps %}
-                    <div class="workout-reps">{{ exercise_record.reps }}回</div>
-                    {% endif %}
-                    <div class="workout-time">{{ exercise_record.duration_minutes }}分</div>
-                </div>
+                <div class="workout-time">{{ exercise_record.duration_minutes }}分</div>
                 <form method="post" action="{% url 'remove_exercise' exercise_record.id %}" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="red-button workout-time">削除</button>
                 </form>
+                <!-- <div class="workout-time">{{ exercise_record.exercise_end_time }}</div> -->
+                <!-- <div class="workout-time">{{ exercise_record.exercise_start_time }}</div> -->
             </div>
             {% endfor %}
         </div>

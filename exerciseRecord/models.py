@@ -4,20 +4,12 @@ from accounts.models import User
 
 from .consts import EXERCISES
 
-
 class ExerciseRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise_start_time = models.DateTimeField()
     exercise_end_time = models.DateTimeField()
     duration_minutes = models.IntegerField()
 
-    # 複数選択できるように、リストで保存
-    exercise_types = models.JSONField(
-        default=list,
-        blank=True
-    )
-    # 回数記録（任意）
-    reps = models.PositiveIntegerField(blank=True, null=True, verbose_name='回数')
     diary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -51,13 +43,6 @@ class ExerciseRecord(models.Model):
         return choices_by_category
 
     @property
-    def exercise_types_display(self):
-        """選択された運動種目を文字列で返す"""
-        if isinstance(self.exercise_types, list) and self.exercise_types:
-            return ", ".join(self.exercise_types)
-        return "その他"
-    
-    @property
     def duration_display(self):
         if self.exercise_start_time and self.exercise_end_time:
             delta = self.exercise_end_time - self.exercise_start_time
@@ -81,15 +66,36 @@ class ExerciseRecord(models.Model):
             return int(delta.total_seconds() / 60)
         return 0
 
+class ExerciseRecordDetail(models.Model):
+    EXERCISE_CHOICES = []
+
+    for category_key, category_data in EXERCISES.items():
+        category_name = category_data['name']
+        exercises = category_data['exercises']
+
+        exercise_options = []
+        for exercise in exercises:
+            if isinstance(exercise, dict):
+                name = exercise['name']
+            else:
+                name = exercise
+            exercise_options.append((name, name))
+
+        EXERCISE_CHOICES.append((category_name, exercise_options))
+
+    exercise_record = models.ForeignKey(
+        ExerciseRecord,
+        on_delete=models.CASCADE,
+        related_name='details'
+    )
+    exercise_type = models.CharField(max_length=100, choices=EXERCISE_CHOICES, blank=True, null=True)
+    reps = models.PositiveIntegerField(blank=True, null=True, verbose_name='回数')
+
 class FeedbackHistory(models.Model):
     """
     運動の感想履歴モデル
     """
-    exercise_record = models.OneToOneField(
-        ExerciseRecord,
-        on_delete=models.CASCADE,
-        related_name='feedback_history'
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     feedback = models.TextField(
         help_text="運動についての感想"
     )
@@ -102,4 +108,4 @@ class FeedbackHistory(models.Model):
         verbose_name_plural = '感想履歴'
 
     def __str__(self):
-        return f"{self.exercise_record.user.username} - {self.created_at}"
+        return f"{self.user.username} - {self.created_at}"
