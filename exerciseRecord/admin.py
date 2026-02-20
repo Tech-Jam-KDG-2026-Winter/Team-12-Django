@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils import timezone
+from django import forms
 from .models import ExerciseRecord, FeedbackHistory
+import json
 
 
 @admin.register(ExerciseRecord)
@@ -15,7 +17,7 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
         ('運動情報', {
-            'fields': ('exercise_types', 'refs' 'exercise_start_time', 'exercise_end_time')
+            'fields': ('exercise_types', 'reps', 'exercise_start_time', 'exercise_end_time')
         }),
         ('感想', {
             'fields': ('diary',),
@@ -51,8 +53,8 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackHistory)
 class FeedbackHistoryAdmin(admin.ModelAdmin):
-    list_display = ['get_user', 'get_exercise_types', 'get_exercise_date', 'created_at']
-    list_filter = ['created_at', 'exercise_record__exercise_type']
+    list_display = ['get_user', 'get_exercise_types_display', 'get_exercise_date', 'created_at']
+    list_filter = ['created_at']
     search_fields = ['exercise_record__user__username', 'feedback']
     ordering = ['-created_at']
     readonly_fields = ['created_at', 'updated_at']
@@ -75,7 +77,59 @@ class FeedbackHistoryAdmin(admin.ModelAdmin):
         return obj.exercise_record.user.username
     get_user.short_description = 'ユーザー'
 
+    def get_exercise_types_display(self, obj):
+        """運動種目を表示（複数対応）"""
+        return obj.exercise_record.exercise_types_display
+    get_exercise_types_display.short_description = '運動種目'
+
     def get_exercise_date(self, obj):
         """運動日時を表示"""
         return obj.exercise_record.exercise_end_time
     get_exercise_date.short_description = '運動日時'
+
+
+class ExerciseRecordAdminForm(forms.ModelForm):
+    """運動記録の管理画面用フォーム"""
+    
+    # exercise_typesを編集しやすいテキストエリアに
+    exercise_types_input = forms.CharField(
+        label='運動種目と回数',
+        widget=forms.Textarea(attrs={'rows': 5, 'cols': 60}),
+        required=False,
+        help_text='例: [{"type": "スクワット", "reps": 20}, {"type": "腕立て伏せ", "reps": 15}]'
+    )
+    
+    class Meta:
+        model = ExerciseRecord
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk and self.instance.exercise_types:
+            # 既存データを整形して表示
+            self.initial['exercise_types_input'] = json.dumps(
+                self.instance.exercise_types, 
+                ensure_ascii=False, 
+                indent=2
+            )
+    
+    def clean_exercise_types_input(self):
+        """入力されたJSONをパース"""
+        data = self.cleaned_data.get('exercise_types_input', '')
+        if not data:
+            return []
+        
+        try:
+            parsed = json.loads(data)
+            if not isinstance(parsed, list):
+                raise forms.ValidationError('リスト形式で入力してください')
+            return parsed
+        except json.JSONDecodeError:
+            raise forms.ValidationError('正しいJSON形式で入力してください')
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.exercise_types = self.cleaned_data.get('exercise_types_input', [])
+        if commit:
+            instance.save()
+        return instance

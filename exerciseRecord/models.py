@@ -50,12 +50,24 @@ class ExerciseRecord(models.Model):
             choices_by_category[category_name] = category_data['exercises']
         return choices_by_category
 
+    # @property
+    # def exercise_types_display(self):
+    #     """選択された運動種目を文字列で返す"""
+    #     if isinstance(self.exercise_types, list) and self.exercise_types:
+    #         return ", ".join(self.exercise_types)
+    #     return "その他"
     @property
     def exercise_types_display(self):
-        """選択された運動種目を文字列で返す"""
-        if isinstance(self.exercise_types, list) and self.exercise_types:
-            return ", ".join(self.exercise_types)
-        return "その他"
+        parts = []
+        for item in self.exercise_types:
+            if isinstance(item, dict):  # ← 辞書形式かチェック
+                exercise_type = item.get('type', '')
+                reps = item.get('reps')
+                if reps:
+                    parts.append(f"{exercise_type}({reps}回)")
+                else:
+                    parts.append(exercise_type)
+        return ", ".join(parts)
     
     @property
     def duration_display(self):
