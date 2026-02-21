@@ -116,6 +116,8 @@
                         const countString = document.createElement("span");
                         countString.textContent = "回";
                         tag.append(countInput, countString);
+                    } else {
+                        selectedExercise.count = 0;
                     }
                     // タグクリックで解除
                     const removeBtn = document.createElement("span");
