@@ -28,3 +28,8 @@
 .text-big-1 {
     font-size: 300%;
 }
+form {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

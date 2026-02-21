@@ -14,16 +14,26 @@
                 <img class="avatar" src="{{ exercise_record.user.profile_image.url }}" alt="">
                 <div class="user-details">
                     <div class="username">{{ exercise_record.user.username }}</div>
-                    <div class="post-time">{{ exercise_record.exercise_end_time }} 終了</div>
+                    <div class="post-time">{{ exercise_record.exercise_start_time }} ~ {{ exercise_record.exercise_end_time }}</div>
                 </div>
             </div>
 
             <div class="post-content">
-                <div class="workout-name">
+                <div class="workout-exercise_types">
                     {% if exercise_record.details.exists %}
-                        {% for detail in exercise_record.details.all %}
-                            {{ detail.exercise_type }}{% if detail.reps %}（{{ detail.reps }}回）{% endif %}
-                            {% if not forloop.last %}, {% endif %}
+                            {% for detail in exercise_record.details.all %}
+                            <div class="workout-exercise_type">
+                                <div class="workout-exercise_type-type">
+                                    {{ detail.exercise_type }}
+                                </div>
+                                {% if detail.reps %}
+                                <div class="workout-exercise_type-reps">
+                                    {{ detail.reps }}回
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="workout-name">
+                            </div>
                         {% endfor %}
                     {% else %}
                         未登録
@@ -33,11 +43,7 @@
                     <div class="stat-item">
                         <span class="stat-value">{{ exercise_record.duration_minutes }}分</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-value">{{ exercise_record.exercise_start_time }} 開始</span>
-                    </div>
                 </div>
-
                 <div class="workout-note">
                     {{ exercise_record.diary|default:"感想なし" }}
                 </div>

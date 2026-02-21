@@ -1,51 +1,39 @@
 from django.contrib import admin
 from django.utils import timezone
-from .models import ExerciseRecord, FeedbackHistory
+from .models import ExerciseRecord, ExerciseRecordDetail, FeedbackHistory
+
+class ExerciseRecordDetailInline(admin.TabularInline):
+    model = ExerciseRecordDetail
+    extra = 1  # 最初から1行表示
+
 
 @admin.register(ExerciseRecord)
 class ExerciseRecordAdmin(admin.ModelAdmin):
-    list_display = ['user', 'exercise_types_display', 'exercise_start_time', 'exercise_end_time', 'duration_display', 'created_at']
-    list_filter = ['created_at', 'user']
-    search_fields = ['user__username', 'diary']
-    ordering = ['-created_at']
-
-    fieldsets = (
-        ('ユーザー情報', {
-            'fields': ('user',)
-        }),
-        ('運動情報', {
-            'fields': ('exercise_start_time', 'exercise_end_time')
-        }),
-        ('感想', {
-            'fields': ('diary',),
-            'classes': ('collapse',)
-        }),
+    list_display = (
+        'user',
+        'exercise_start_time',
+        'exercise_end_time',
+        'duration_minutes',
+        'created_at',
     )
 
-    exclude = ['duration_minutes']
+    list_filter = ('user', 'created_at')
+    search_fields = ('user__username', 'diary')
+    date_hierarchy = 'created_at'
 
-    def save_model(self, request, obj, form, change):
-        """
-        保存時にduration_minutesを自動計算
-        """
-        obj.duration_minutes = ExerciseRecord.calculate_duration(
-            obj.exercise_start_time,
-            obj.exercise_end_time
-        )
-        super().save_model(request, obj, form, change)
+    inlines = [ExerciseRecordDetailInline]
 
-    def duration_display(self, obj):
-        """
-        一覧画面で運動時間を表示
-        """
-        return obj.duration_display
 
-    duration_display.short_description = '運動時間'
+@admin.register(ExerciseRecordDetail)
+class ExerciseRecordDetailAdmin(admin.ModelAdmin):
+    list_display = (
+        'exercise_record',
+        'exercise_type',
+        'reps',
+    )
 
-    def exercise_types_display(self, obj):
-        """一覧画面で運動種目を表示"""
-        return obj.exercise_types_display
-    exercise_types_display.short_description = '運動種目'
+    list_filter = ('exercise_type',)
+    search_fields = ('exercise_type',)
 
 
 @admin.register(FeedbackHistory)

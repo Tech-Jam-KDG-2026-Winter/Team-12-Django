@@ -204,6 +204,42 @@ body {
     margin-bottom: 4px;
 }
 
+.workout-exercise_types {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    gap: 5px;
+}
+.workout-exercise_types::-webkit-scrollbar {
+    display: none;
+}
+
+.workout-exercise_type {
+    border-radius: 20px;
+    height: 40px;
+    background-color: var(--input-bg);
+    display: flex;
+    padding: 10px;
+    align-content: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    gap: 5px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.workout-exercise_type-type {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.workout-exercise_type-reps {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
 .workout-details {
     font-size: 14px;
     color: var(--text-secondary);
@@ -215,6 +251,7 @@ body {
     text-align: right;
     padding: 6px 12px;
     border: 1px solid #ffffff00;
+    white-space: nowrap;
 }
 
 .workout-time+button {
@@ -297,9 +334,9 @@ button {
 }
 
 .green-button {
-    color: rgb(7, 180, 7) !important;
-    background-color: #a4f540 !important;
-    border-color: rgb(7, 180, 7) !important;
+    color: rgb(32, 202, 32) !important;
+    background-color: #78f06b !important;
+    border-color: rgb(32, 202, 32) !important;
 }
 
 .unstyle-button {

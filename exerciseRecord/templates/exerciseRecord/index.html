@@ -226,11 +226,21 @@
             <div class="workout-card">
                 <!-- <div class="workout-icon" style="background: linear-gradient(135deg, #92E82A, #B4FF00);">🚴</div> -->
                 <div class="workout-info">
-                    <div class="workout-name">
+                    <div class="workout-exercise_types">
                         {% if exercise_record.details.exists %}
                             {% for detail in exercise_record.details.all %}
-                                {{ detail.exercise_type }}{% if detail.reps %}（{{ detail.reps }}回）{% endif %}
-                                {% if not forloop.last %}, {% endif %}
+                                <div class="workout-exercise_type">
+                                    <div class="workout-exercise_type-type">
+                                        {{ detail.exercise_type }}
+                                    </div>
+                                    {% if detail.reps %}
+                                    <div class="workout-exercise_type-reps">
+                                        {{ detail.reps }}回
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="workout-name">
+                                </div>
                             {% endfor %}
                         {% else %}
                             未登録

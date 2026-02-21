@@ -108,19 +108,19 @@ def save_feedback(request, pk):
     POST: 感想を保存し、感想履歴ページへリダイレクト
     """
     record = get_object_or_404(ExerciseRecord, pk=pk, user=request.user)
-    
+
     if request.method == 'POST':
         form = FeedbackHistoryForm(request.POST)
         if form.is_valid():
             # 既存の感想がある場合は削除（OneToOneフィールドのため）
             if hasattr(record, 'feedback_history'):
                 record.feedback_history.delete()
-            
+
             # 新しい感想を保存
             feedback = form.save(commit=False)
             feedback.exercise_record = record
             feedback.save()
-            
+
             messages.success(request, '感想を保存しました。')
             return redirect('feedback_history', pk=pk)
     else:
@@ -129,7 +129,7 @@ def save_feedback(request, pk):
             form = FeedbackHistoryForm(instance=record.feedback_history)
         else:
             form = FeedbackHistoryForm()
-    
+
     return render(request, 'exerciseRecord/save_feedback.html', {
         'form': form,
         'record': record,

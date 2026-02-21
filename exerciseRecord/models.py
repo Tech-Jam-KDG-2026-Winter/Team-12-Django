@@ -8,7 +8,7 @@ class ExerciseRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise_start_time = models.DateTimeField()
     exercise_end_time = models.DateTimeField()
-    duration_minutes = models.IntegerField()
+    duration_minutes = models.IntegerField(editable=False)
 
     diary = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -65,6 +65,15 @@ class ExerciseRecord(models.Model):
             delta = end_time - start_time
             return int(delta.total_seconds() / 60)
         return 0
+
+    def save(self, *args, **kwargs):
+        if self.exercise_start_time and self.exercise_end_time:
+            delta = self.exercise_end_time - self.exercise_start_time
+            self.duration_minutes = int(delta.total_seconds() / 60)
+        else:
+            self.duration_minutes = 0
+
+        super().save(*args, **kwargs)
 
 class ExerciseRecordDetail(models.Model):
     EXERCISE_CHOICES = []

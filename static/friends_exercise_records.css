@@ -120,3 +120,11 @@
     color: var(--text-secondary);
     line-height: 1.5;
 }
+
+.workout-exercise_types {
+    display: flex;
+    overflow-x: hidden;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 5px;
+}
